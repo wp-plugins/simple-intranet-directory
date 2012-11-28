@@ -4,11 +4,11 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, company, enterprise, corporate, user, directory, profile, staff, dashboard
 Requires at least: 3.0.1
 Tested up to: 3.4.2
-Stable tag: trunk
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A simple and easy to use employee directory for your intranet or business.
+A simple employee directory for your intranet or business.
 
 == Description ==
 
@@ -56,3 +56,15 @@ Click on "Users / Employee Photos" and down the page under "Photo Options" you w
 = I'm uploading employee photos but they are not appearing or saving? =
 
 This is typically caused by a folder or a permission issue.  First ensure you are uploading to the right folder, and test the image URL in a separate browser to see if it has uploaded.  Also, under "Users / Employee Photos" and down the page under "Photo Options" your will see an option for "User Uploads" where you can manually set the Avatar upload directory.  Be sure you have "write" privileges and not just "read" privileges.  You may have to use a FTP or HTML editor to "CHMOD" the folder to change permissions to allow "write" access.
+
+== Screenshots ==
+
+1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user avatars.
+
+== Changelog ==
+
+= 1.1 =
+* Updated pagination formatting for over 25 records.
+
+= 1.0 =
+* First version of plugin.

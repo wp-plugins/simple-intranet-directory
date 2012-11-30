@@ -63,6 +63,10 @@ This is typically caused by a folder or a permission issue.  First ensure you ar
 
 == Changelog ==
 
+= 1.2 =
+* Updated phone numbers to make them clickable via all smart phones including iPhone and Android.
+* Expanded employee search to title and departments as well as by name.
+
 = 1.1 =
 * Updated pagination formatting for over 25 records.
 

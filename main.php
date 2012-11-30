@@ -486,6 +486,16 @@ array(
         'value' => $name,
 		'compare' => 'LIKE',		
         ),	
+array(      
+		'key' => 'title',
+        'value' => $name,
+		'compare' => 'LIKE',		
+        ),
+array(      
+		'key' => 'department',
+        'value' => $name,
+		'compare' => 'LIKE',		
+        ),
 ));
 // Create the WP_User_Query object
 $wp_user_query = new WP_User_Query($args);
@@ -497,7 +507,7 @@ $authors = $wp_user_query->get_results();
 // Check for results
 if (empty($authors))
 {
-echo 'No authors found<br><br>';
+echo 'No results found<br><br>';
 } 
 
 foreach ($authors as $author ) {
@@ -524,13 +534,13 @@ if($dept) {
 echo ', <em>'.$dept.'</em>';
 }
 if($phone) {
-echo '<br>Phone: '.$phone2;
+echo '<br>Phone: <a href="tel:'.$phone2.'">'.$phone2.'</a>';
 }
 if($ext) {
 echo ', <em>Extension: '.$ext.'</em>';
 }
 if($mobile2) {
-echo '<br>Mobile: '.$mobile2.'';
+echo '<br>Mobile: <a href="tel:'.$mobile2.'">'.$mobile2.'</a>';	
 }
 if($email) {
 echo '<br><a href="mailto:'.$email.'">'.$email.'</a></em>';

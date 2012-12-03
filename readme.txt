@@ -64,7 +64,7 @@ This is typically caused by a folder or a permission issue.  First ensure you ar
 == Changelog ==
 
 = 1.21 =
-*Optimized speed of search function, added pull down menu for name, title, department.
+* Optimized speed of search function, added pull down menu for name, title, department.
 
 = 1.2 =
 * Updated phone numbers to make them clickable via all smart phones including iPhone and Android.

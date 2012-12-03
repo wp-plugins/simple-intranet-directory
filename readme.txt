@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, company, enterprise, corporate, user, directory, profile, staff, dashboard
 Requires at least: 3.0.1
 Tested up to: 3.4.2
-Stable tag: 1.2
+Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,9 @@ This is typically caused by a folder or a permission issue.  First ensure you ar
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user avatars.
 
 == Changelog ==
+
+= 1.21 =
+*Optimized speed of search function, added pull down menu for name, title, department.
 
 = 1.2 =
 * Updated phone numbers to make them clickable via all smart phones including iPhone and Android.

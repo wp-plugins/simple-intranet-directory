@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos.
-Version: 1.2
+Version: 1.0
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -450,14 +450,20 @@ function si_contributors_lite() {
 // employee search form  // ' . esc_url( home_url( '/employees/index.php' ) ) . '
 $form = '<form method="get" id="employeesearchform" action="" >
 	<div><label class="screen-reader-text" for="s">' . __('Search for:') . '</label>
-	<input type="text" name="employeename" id="employeename" />
+	<input type="text" name="si_search" id="si_search" />
+	<select name="type" id="type">
+	  <option value="name" selected="selected">Name</option>
+	  <option value="title">Title</option>
+	  <option value="department">Department</option>
+	  </select>
 	<input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" />
 	</div>
 	</form>';
 echo $form.'<br>';
 //employee directory or search resulrts
 global $wpdb;
-$name = ( isset($_GET["employeename"]) ) ? sanitize_text_field($_GET["employeename"]) : false ;
+$name = ( isset($_GET["si_search"]) ) ? sanitize_text_field($_GET["si_search"]) : false ;
+$type=$_GET['type'];
 
 // Get Query Var for pagination. This already exists in WordPress
 $number = 25;
@@ -467,6 +473,7 @@ $page = (get_query_var('page')) ? get_query_var('page') : 1;
 $offset = ($page - 1) * $number;
 
 // prepare arguments
+if ($type=="" || $type=="name"){
 $args  = array(
 // order results by display_name
 'orderby' => 'display_name',
@@ -478,25 +485,52 @@ $args  = array(
 					  
 array(      
 		'key' => 'first_name',
-        'value' => $name,
-		'compare' => 'LIKE',		
+        'value' => $name,	
+		'compare' => 'LIKE',
         ),	 
 array(      
 		'key' => 'last_name',
-        'value' => $name,
-		'compare' => 'LIKE',		
-        ),	
+        'value' => $name,	
+		'compare' => 'LIKE',        ),	
+
+));
+}
+
+if ($type=="title"){
+$args  = array(
+// order results by display_name
+'orderby' => 'display_name',
+'number' => $number,
+'offset' => $offset,
+// check for two meta_values
+'meta_query' => array(
+					  'relation' => 'OR',				  
+
 array(      
 		'key' => 'title',
         'value' => $name,
-		'compare' => 'LIKE',		
+		'compare' => 'LIKE',
         ),
+));
+}
+
+if ($type=="department"){
+$args  = array(
+// order results by display_name
+'orderby' => 'display_name',
+'number' => $number,
+'offset' => $offset,
+// check for two meta_values
+'meta_query' => array(
+					  'relation' => 'OR',				  
+
 array(      
 		'key' => 'department',
         'value' => $name,
-		'compare' => 'LIKE',		
+		'compare' => 'LIKE',
         ),
 ));
+}
 // Create the WP_User_Query object
 $wp_user_query = new WP_User_Query($args);
 // pagination
@@ -507,8 +541,8 @@ $authors = $wp_user_query->get_results();
 // Check for results
 if (empty($authors))
 {
-echo 'No results found<br><br>';
-} 
+echo 'No results for the '.$type.' "'.$name.'".<br><br>';
+}
 
 foreach ($authors as $author ) {
 $inoffice=get_the_author_meta('si_office_status', $author->ID);

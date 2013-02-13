@@ -16,7 +16,7 @@ Simple Intranet Directory is an easy to use employee directory listing of your u
 
 Credit is given to Peter Sterling from http://www.sterling-adventures.co.uk/blog/ for his contribution in part to this code.
 
-Upgrade to the full version of our Simple Intranet plugin and get these features;
+Upgrade to the full version of our Simple Intranet (http://www.simpleintranet.org) plugin and get these features;
 * restricted access options for entire site or post/pages
 * branded login and admin panels
 * Facebook-like real-time activity feed for employee communication

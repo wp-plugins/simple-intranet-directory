@@ -7,7 +7,6 @@ Tested up to: 3.4.2
 Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Credit is given to Peter Sterling from http://www.sterling-adventures.co.uk/blog/ for his contribution in part to this code.
 
 A simple employee directory for your intranet or business.
 
@@ -15,9 +14,11 @@ A simple employee directory for your intranet or business.
 
 Simple Intranet Directory is an easy to use employee directory listing of your users that includes extended profile information, user avatars/photos and a search function.
 
+Credit is given to Peter Sterling from http://www.sterling-adventures.co.uk/blog/ for his contribution in part to this code.
+
 Upgrade to the full version of our Simple Intranet plugin and get these features;
 * restricted access options for entire site or post/pages
-* branded login and admin panels 
+* branded login and admin panels
 * Facebook-like real-time activity feed for employee communication
 * the ability to upload images to feed
 * an upcoming events calendar/listing

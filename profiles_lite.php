@@ -1,5 +1,11 @@
 <?php
-
+/*
+	Plugin URI:		http://www.sterling-adventures.co.uk/blog/2008/03/01/avatars-plugin/
+	Description:	A plugin to manage public and private avatars.
+	Author:			Peter Sterling
+	Version:		11.1
+	Author URI:		http://www.sterling-adventures.co.uk/blog/
+*/
 define('AVATAR_VER', '11.1');															// Plug-in version.
 define('UNKNOWN', 'unknown@gravatar.com');												// Unknown e-mail.
 define('BLANK', 'blank');																// Blank e-mail.

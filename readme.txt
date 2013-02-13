@@ -7,6 +7,7 @@ Tested up to: 3.4.2
 Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Credit is given to Peter Sterling from http://www.sterling-adventures.co.uk/blog/ for his contribution in part to this code.
 
 A simple employee directory for your intranet or business.
 

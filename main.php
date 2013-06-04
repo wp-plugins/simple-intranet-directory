@@ -3,8 +3,8 @@
 Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
-Description: Provides a simple intranet which includes extended user employee profile data, employee photos.
-Version: 1.21
+Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
+Version: 1.3
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -36,9 +36,18 @@ function admin_del_color_options_lite() {
 add_action('admin_head', 'admin_del_color_options_lite');
 
 function add_twitter_contactmethod_lite( $contactmethods ) {
+  
   unset($contactmethods['aim']);
   unset($contactmethods['jabber']);
   unset($contactmethods['yim']);
+  add_option('custom1label', '');
+  add_option('custom2label', '');
+  add_option('custom3label', '');
+  $officetext=get_the_author_meta('officenotification', $user_id); 
+  if ($officetext==''){
+	$out = __('Out of the office.','simpleintranet');
+	update_user_meta( $user_id, 'officenotification', $out ); 	
+	}
   return $contactmethods;
 }
 add_filter('user_contactmethods','add_twitter_contactmethod_lite',10,1);
@@ -402,6 +411,89 @@ function fb_add_custom_user_profile_fields_lite( $user ) {
 				<span class="description"><?php _e('Please enter your country.', 'your_textdomain'); ?></span>
 			</td>
 		</tr>
+         <tr>
+			<th>				
+                <?php if(current_user_can('administrator') ) { 
+				_e('Custom Field #1 Label: ', 'simpleintranet'); ?>
+                <input name="custom1label" type="text" class="regular-text" id="custom1label" value="<?php echo get_option( 'custom1label'); ?>" size="20" /><?php } else { 				
+				$custom1label= get_option( 'custom1label');	
+				echo $custom1label;		
+				if ($custom1label==''){
+				echo 'Custom Field #1: ';
+				}
+               } 			   
+			   ?>
+		  </th>
+			<td>
+				<input type="text" name="custom1" id="custom1" value="<?php echo get_the_author_meta( 'custom1', $user->ID ) ; ?>" class="regular-text" /><br />
+				<span class="description"><?php _e('Enter a custom field that will show up in the Employee Directory if populated. HTML code is OK, but use carefully.', 'simpleintranet'); ?></span>
+			</td>
+		</tr>
+          <tr>
+			<th>
+				 <?php if(current_user_can('administrator') ) { 
+				_e('Custom Field #2 Label: ', 'simpleintranet'); ?>
+                <input name="custom2label" type="text" class="regular-text" id="custom2label" value="<?php echo get_option( 'custom2label') ; ?>" size="20" /><?php } else { 				
+				$custom2label= get_option( 'custom2label');	
+				echo $custom2label;		
+				if ($custom2label==''){
+				echo 'Custom Field #2: ';
+				}
+               } 			   
+			   ?>
+			</th>
+			<td>
+				<input type="text" name="custom2" id="custom2" value="<?php echo get_the_author_meta( 'custom2', $user->ID ); ?>" class="regular-text" /><br />
+				<span class="description"><?php _e('Enter a custom field that will show up in the Employee Directory if populated. HTML code is OK, but use carefully.', 'simpleintranet'); ?></span>
+			</td>
+		</tr>
+          <tr>
+			<th>
+				 <?php if(current_user_can('administrator') ) { 
+				_e('Custom Field #3 Label: ', 'simpleintranet'); ?>
+                <input name="custom3label" type="text" class="regular-text" id="custom3label" value="<?php echo get_option( 'custom3label'); ?>" size="20" /><?php } else { 				
+				$custom3label= get_option( 'custom3label');	
+				echo $custom3label;		
+				if ($custom3label==''){
+				echo 'Custom Field #3: ';
+				}
+               } 			   
+			   ?>
+			</th>
+			<td>
+				<input type="text" name="custom3" id="custom3" value="<?php echo get_the_author_meta( 'custom3', $user->ID ) ; ?>" class="regular-text" /><br />
+				<span class="description"><?php _e('Enter a custom field that will show up in the Employee Directory if populated. HTML code is OK, but use carefully.', 'simpleintranet'); ?></span>
+			</td>
+		</tr>
+        
+           <tr>
+			<th>
+				<label for="si_office_status"><?php _e('Update out of office status', 'simpleintranet'); ?>
+			</label></th>
+			<td>
+				<select name="si_office_status" id="si_office_status">
+                <?php $this_user=$_GET['user_id'] ;
+				$in_out= get_the_author_meta( 'si_office_status', $this_user); ?>
+                    <option value="false" <?php if ($in_out == "" || $in_out=="false" ) { 
+					echo "selected=\"selected\""; 
+					}?>>No</option>
+                    <option value="true" <?php if ($in_out=="true" ) { echo "selected=\"selected\"";
+					}?>>Yes</option>   
+                     </select>             
+                <br />
+				<span class="description"><?php _e('Out of the office?', 'simpleintranet'); ?> </span>
+			</td>
+		</tr>
+        
+           <tr>
+			<th>
+				<label for="officenotification"><?php _e('Out of office text', 'simpleintranet'); ?>
+			</label></th>
+			<td>
+				<input type="text" name="officenotification" id="officenotification" value="<?php echo esc_attr( get_the_author_meta( 'officenotification', $user->ID ) ); ?>" class="regular-text" /><br />
+				<span class="description"><?php _e('Enter custom out of office notification text here, assuming activated.', 'simpleintranet'); ?></span>
+			</td>
+		</tr>
 	</table>
 <?php }
 function fb_save_custom_user_profile_fields_lite( $user_id ) {
@@ -417,6 +509,16 @@ function fb_save_custom_user_profile_fields_lite( $user_id ) {
 	update_usermeta( $user_id, 'city', $_POST['city'] );
 	update_usermeta( $user_id, 'region', $_POST['region'] );
 	update_usermeta( $user_id, 'country', $_POST['country'] );
+	update_user_meta( $user_id, 'custom1', $_POST['custom1'] );	
+	update_user_meta( $user_id, 'custom2', $_POST['custom2'] );	
+	update_user_meta( $user_id, 'custom3', $_POST['custom3'] );
+	update_user_meta( $user_id, 'si_office_status', $_POST['si_office_status'] );
+	update_user_meta( $user_id, 'officenotification', $_POST['officenotification'] );
+	if(current_user_can('administrator') ) { 
+	update_option('custom1label', $_POST['custom1label'] );
+	update_option('custom2label', $_POST['custom2label'] );
+	update_option('custom3label', $_POST['custom3label'] );	
+	}
 }
 add_action( 'show_user_profile', 'fb_add_custom_user_profile_fields_lite' );
 add_action( 'edit_user_profile', 'fb_add_custom_user_profile_fields_lite' );
@@ -556,6 +658,26 @@ $mobilephone = get_the_author_meta('mobilephone', $author->ID);
 $mobile2= formatPhone_lite($mobilephone);
 $ext = get_the_author_meta('phoneext', $author->ID);
 $email = get_the_author_meta('email', $author->ID);
+$custom1label = get_option('custom1label');
+$custom1 = get_the_author_meta('custom1', $author->ID);
+if($custom1!=''){
+$cu1='<br>';
+}
+$custom2label = get_option('custom2label');
+$custom2 = get_the_author_meta('custom2', $author->ID);
+if($custom2!=''){
+$cu2='<br>';
+}
+$custom3label = get_option('custom3label');
+$custom3 = get_the_author_meta('custom3', $author->ID);
+if($custom3!=''){
+$cu3='<br>';
+}
+$inoffice=get_the_author_meta('si_office_status', $author->ID);
+$officetext=get_the_author_meta('officenotification', $author->ID);
+if($inoffice=='true') {
+echo '<div class="outofoffice">'.$officetext.'</div>';
+}
 echo '<div class="employeephoto">';
 echo get_avatar($author->ID);
 echo '</div>';
@@ -577,15 +699,15 @@ if($mobile2) {
 echo '<br>Mobile: <a href="tel:'.$mobile2.'">'.$mobile2.'</a>';	
 }
 if($email) {
-echo '<br><a href="mailto:'.$email.'">'.$email.'</a></em>';
+echo '<br><a href="mailto:'.$email.'">'.$email.'</a></em><br>';
 }
+echo $custom1label.$custom1.$cu1.$custom2label.$custom2.$cu2.$custom3label.$custom3.$cu3;
 if(!$email) {
 echo '<br>';
 }
 if(!$phone) {
 echo '<br>';
 }
-echo '<br>';
 echo '<br>';
 echo '</div>';
 }
@@ -623,6 +745,44 @@ function menu_item_text_lite( $menu ) {
 }
 add_filter('gettext', 'menu_item_text_lite');
 add_filter('ngettext', 'menu_item_text_lite');
+
+// OUT OF OFFICE ALERT
+
+/* Display an out of office notice that can be dismissed */
+add_action('admin_notices', 'si_admin_notice');
+function si_admin_notice() {
+    global $current_user, $pagenow, $status;
+        $user_id = $current_user->ID;		
+		 $status= esc_attr( get_the_author_meta( 'si_office_status', $user_id ,true) ); 
+		
+	//$status=get_user_meta($user_id, 'si_office_status',true);	
+ if ( $pagenow == 'profile.php' || $status=='true' ) {
+if ($status=='true') {          
+	  echo '<div class="updated"><p>';
+        printf(__('Out of office notification is ON. | <a href="%1$s">Turn OFF.</a>'), 'profile.php?si_office=false');
+        echo "</p></div>"; 			
+             update_user_meta($user_id, 'si_office_status', 'true');   		
+	}
+if ($status=='false' || !$status) {    
+      echo '<div class="updated"><p>';
+        printf(__('Out of office notification is OFF. | <a href="%1$s">Turn ON.</a>'), 'profile.php?si_office=true');
+        echo "</p></div>";	 
+		 update_user_meta($user_id, 'si_office_status', 'false');   
+}
+   }
+}
+
+add_action('admin_init', 'si_in_office');
+function si_in_office() {
+    global $current_user;
+        $user_id = $current_user->ID;		
+        /* If user clicks to be back in office, add that to their user meta */  
+		if(isset($_GET['si_office'])){
+		if($_GET['si_office']!=''){
+             update_user_meta($user_id, 'si_office_status', $_GET['si_office']);   
+		}
+		}
+}
 
 
 ?>

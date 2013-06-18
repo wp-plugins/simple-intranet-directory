@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 1.4
+Version: 1.41
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -660,28 +660,28 @@ $ext = get_the_author_meta('phoneext', $author->ID);
 $email = get_the_author_meta('email', $author->ID);
 $custom1label = get_option('custom1label');
 $custom1 = get_the_author_meta('custom1', $author->ID);
-if($custom1!=''){
+if(isset($custom1)&& $custom1!=''){
 $cu1='<br>';
 }
 $custom2label = get_option('custom2label');
 $custom2 = get_the_author_meta('custom2', $author->ID);
-if($custom2!=''){
+if(isset($custom2) && $custom2!=''){
 $cu2='<br>';
 }
 $custom3label = get_option('custom3label');
 $custom3 = get_the_author_meta('custom3', $author->ID);
-if($custom3!=''){
+if(isset($custom3) && $custom3!=''){
 $cu3='<br>';
 }
 $inoffice=get_the_author_meta('si_office_status', $author->ID);
 $officetext=get_the_author_meta('officenotification', $author->ID);
-if($inoffice=='true') {
-echo '<div class="outofoffice">'.$officetext.'</div>';
-}
-echo '<div class="employeephoto">';
+echo '<div id="wrap"><div class="employeephoto">';
 echo get_avatar($author->ID);
 echo '</div>';
 echo '<div class="employeebio">';
+if($inoffice=='true') {
+echo '<div class="outofoffice">'.$officetext.'</div>';
+}
 echo '<strong>'.$first.' '.$last.'</strong>';
 if($title) {
 echo ', <em>'.$title.'</em>';
@@ -702,14 +702,7 @@ if($email) {
 echo '<br><a href="mailto:'.$email.'">'.$email.'</a></em><br>';
 }
 echo $custom1label.$custom1.$cu1.$custom2label.$custom2.$cu2.$custom3label.$custom3.$cu3;
-if(!$email) {
-echo '<br>';
-}
-if(!$phone) {
-echo '<br>';
-}
-echo '<br>';
-echo '</div>';
+echo '</div></div>';
 }
 //pagination stuff
 $pr='Previous Page';

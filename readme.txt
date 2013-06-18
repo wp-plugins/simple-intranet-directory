@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
 Tested up to: 3.5.1
-Stable tag: 1.4
+Stable tag: 1.41
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,8 +80,8 @@ Yes, they can edit any users profile information and just update the pull-down m
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
-= 1.4 =
-* Optimized the CSS formatting of the employee directory layout for select Internet Explorer versions.
+= 1.41 =
+* Optimized the CSS formatting of the employee directory layout for select Internet Explorer versions, and updated formatting of new custom fields user profile inputs.
 
 = 1.3 =
 * Added 3 new custom fields where the administrator can edit the labels, and employees can fill in their data.

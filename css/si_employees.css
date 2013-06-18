@@ -1,17 +1,21 @@
 @charset "utf-8";
 /* CSS Document */
+#wrap {	   
+   overflow: hidden; 
+   padding: 10px 0 10px 0;   
+}
 
 .employeephoto {
 float: left;
 width: 100px;
-padding: 8px 10px 0px 10px;
+padding: 0 10px 0px 10px;
 }
 .employeebio {
 display: block;
 line-height: 1.5;
-padding: 0px 0px 10px 0px;
+padding: 0 10px 0 10px;
 }
 .outofoffice {
-padding: 0 0 0 8px;
+padding: 0 0 0 10px;
 color:red;
 }

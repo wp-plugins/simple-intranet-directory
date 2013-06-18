@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
 Tested up to: 3.5.1
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,31 +17,18 @@ A simple employee directory with photos for your intranet or business.
 Upgrade to the full version of our Simple Intranet (http://www.simpleintranet.org) plugin and get these features;
 
 * secure intranet site-wide password protection and Google/Active Directory SSO
-
 * out of office expiry date and custom text options and widget
-
 * employee of the month and employee birthdays widget
-
 * drill-down detailed employee biography profiles
-
 * branded login and admin panels with your logo
-
 * Facebook-like real-time activity feed for employee communication
-
 * Dropbox-like drag and drop file management with user permissions by folder or file
-
 * front-end user edited Wiki for group editing and collaboration
-
 * employee online survey poll widget and archive
-
 * an upcoming events calendar/listing page and widget with e-mail notifications
-
 * contact and HR forms with downloads on the backend
-
 * most popular content sidebar widget (records views of all pages/posts)
-
 * appointment and conference room bookings
-
 * Question & Answer page function like Quora, Yahoo Answers, StackOverflow
 
 NOTE: To upgrade you will need to deactivate and delete this Simple Intranet Directory plugin from your server.  Don't worry, your photos and employee data will however be saved and accessible in your the full version of the Simple Intranet plugin.
@@ -93,6 +80,8 @@ Yes, they can edit any users profile information and just update the pull-down m
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 1.4 =
+* Optimized the CSS formatting of the employee directory layout for select Internet Explorer versions.
 
 = 1.3 =
 * Added 3 new custom fields where the administrator can edit the labels, and employees can fill in their data.

@@ -3,6 +3,7 @@
 
 .employeephoto {
 float: left;
+width: 100px;
 padding: 8px 10px 0px 10px;
 }
 .employeebio {

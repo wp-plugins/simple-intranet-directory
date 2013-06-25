@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 1.41
+Version: 1.5
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -575,10 +575,21 @@ $page = (get_query_var('page')) ? get_query_var('page') : 1;
 $offset = ($page - 1) * $number;
 
 // prepare arguments
-if ($type=="" || $type=="name"){
+if ($type=="" ){
 $args  = array(
-// order results by display_name
-'orderby' => 'display_name',
+// order results 
+'orderby' => 'first_name',
+'fields'    => 'all_with_meta',
+'number' => $number,
+'offset' => $offset,
+);
+$authors = get_users($args);
+}
+
+if ($type=="name"){
+$args  = array(
+'orderby' => 'first_name',
+'fields'    => 'all_with_meta',
 'number' => $number,
 'offset' => $offset,
 // check for two meta_values
@@ -596,15 +607,15 @@ array(
 		'compare' => 'LIKE',        ),	
 
 ));
+$authors = get_users($args);
+
 }
 
 if ($type=="title"){
 $args  = array(
-// order results by display_name
-'orderby' => 'display_name',
+'fields'    => 'all_with_meta',
 'number' => $number,
 'offset' => $offset,
-// check for two meta_values
 'meta_query' => array(
 					  'relation' => 'OR',				  
 
@@ -614,15 +625,22 @@ array(
 		'compare' => 'LIKE',
         ),
 ));
+
+$authors = get_users($args);
+
+function si_cmp($a, $b){ 
+    return strcasecmp($a->title, $b->title);
+}
+usort($authors, "si_cmp");
+
 }
 
 if ($type=="department"){
 $args  = array(
 // order results by display_name
-'orderby' => 'display_name',
+'fields'    => 'all_with_meta',
 'number' => $number,
 'offset' => $offset,
-// check for two meta_values
 'meta_query' => array(
 					  'relation' => 'OR',				  
 
@@ -632,14 +650,23 @@ array(
 		'compare' => 'LIKE',
         ),
 ));
+
+$authors = get_users($args);
+
+function si_cmp($a, $b){ 
+    return strcasecmp($a->department, $b->department);
 }
+usort($authors, "si_cmp");
+}
+
 // Create the WP_User_Query object
 $wp_user_query = new WP_User_Query($args);
 // pagination
 $total_authors = $wp_user_query->total_users;
 $total_pages = intval($total_authors / $number) + 1;
 // Get the results
-$authors = $wp_user_query->get_results();
+//$authors = $wp_user_query->get_results();
+
 // Check for results
 if (empty($authors))
 {

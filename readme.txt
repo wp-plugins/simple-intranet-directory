@@ -80,8 +80,8 @@ Yes, they can edit any users profile information and just update the pull-down m
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
-= 1.5
-* Added sorting order to Employee Directory results.  Default order is by user first name when directory page is loaded.  When text field is empty, and title or department is chosen, then results now show alphabetically by what is selected in the pull-down search menu.
+= 1.5 =
+* Added sorting order to Employee Directory results.  Default order is by user first name when directory page is loaded.  When text field is empty, and title or department is chosen, then results now show alphabetically (e.g. by what is selected in the pull-down search menu).
 
 = 1.41 =
 * Optimized the CSS formatting of the employee directory layout for select Internet Explorer versions, and updated formatting of new custom fields user profile inputs.

@@ -3,8 +3,8 @@ Contributors: charlwood
 Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
-Tested up to: 3.5.1
-Stable tag: 1.41
+Tested up to: 3.6.1
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,17 +12,18 @@ A simple employee directory with photos for your intranet or business.
 
 == Description ==
 
-*Simple Intranet Directory* is an easy to use employee directory listing of your users that includes extended profile information, user photos and a search function.  We have also added custom fields and an out of office alert function. Credit is given to Peter Sterling from http://www.sterling-adventures.co.uk/blog/ for his contribution to the Avatar portion of this code.
+*Simple Intranet Directory* is an easy to use employee directory listing of your users that includes extended profile information, user photos and a search function.  We have also added custom fields, an out of office alert function and sidebar widget, custom HTML biographies and an employees sidebar widget.
 
 Upgrade to the full version of our Simple Intranet (http://www.simpleintranet.org) plugin and get these features;
 
-* secure intranet site-wide password protection and Google/Active Directory SSO
+* secure intranet site-wide or page/post specific password protection 
+* Google/Active Directory single sign-on (SSO)
 * out of office expiry date and custom text options and widget
-* employee of the month and employee birthdays widget
-* drill-down detailed employee biography profiles
+* employee of the month, company anniversary and employee birthdays widget
+* drill-down detailed employee biography profiles (prepopulated or custom HTML)
 * branded login and admin panels with your logo
 * Facebook-like real-time activity feed for employee communication
-* Dropbox-like drag and drop file management with user permissions by folder or file
+* private Dropbox-like drag and drop file management with user permissions by folder or file
 * front-end user edited Wiki for group editing and collaboration
 * employee online survey poll widget and archive
 * an upcoming events calendar/listing page and widget with e-mail notifications
@@ -41,9 +42,9 @@ Thank you for downloading our Simple Intranet Directory plugin.  Here is a quick
 
 2. You will then need to activate the Simple Intranet Directory plugin in the "Plugins" area of the Dashboard. 
 
-3. Set up your employee directory by uploading employee photos via either the "Users/Employee Photos" or "Users/Your Employee Profile" menus.
+3. Set up your employee directory by uploading employee photos via the "Users/Your Profile" menus.
 
-4. Add a searchable employee directory listing by inserting the [employees] shortcode into a post or page.
+4. Add a searchable employee directory listing by inserting the [employees] shortcode into a post or page. Optionally limit to 10 people per page (25 is default) using the limit parameter: [employees limit="10"].
 
 5. View these and more options at the "Simple Intranet" menu item in your Dashboard or visit http://www.simpleintranet.org.
 
@@ -51,35 +52,40 @@ Thank you for downloading our Simple Intranet Directory plugin.  Here is a quick
 
 = How do I add the directory? =
 
-Simply add the [employees] shortcode into any post or page.  Then update users profile information if you are an admin, or have your users update their own profiles under "Users / Your Employee Profile" when they login.
+Simply add the [employees] shortcode into any post or page.  Then update users profile information if you are an admin, or have your users update their own profiles under "Users / Your Profile" when they login.
 
 = How can I change the look of my employee directory? =
 
 You can edit the style sheet file called "si_employees.css" found in the /css folder.  This includes classes for the "employeephoto" and "employeebio" and "outofoffice" areas of the employee directory.
-
-= How can I change the size of the employee photos? =
-
-Click on "Users / Employee Photos" and down the page under "Photo Options" you will see the third option is for the size of the photos in pixels.
-
-= I'm uploading employee photos but they are not appearing or saving? =
-
-This is typically caused by a folder or a permission issue.  First ensure you are uploading to the right folder, and test the image URL in a separate browser to see if it has uploaded.  Also, under "Users / Employee Photos" and down the page under "Photo Options" your will see an option for "User Uploads" where you can manually set the Avatar upload directory.  Be sure you have "write" privileges and not just "read" privileges.  You may have to use a FTP or HTML editor to "CHMOD" the folder to change permissions to allow "write" access.
 
 = Where do I add custom fields? =
 
 In the "Users / Your Employee Profile" under the Country field you can add up to 3 custom fields.  Admins can edit the labels and all other roles can add content next to these labels.
 
 = How does the Out of Office alert function work? =
-In "Users / Your Employee Profile" at the top of the page you will see "Out of office notification is OFF. | Turn ON.".  Click "Turn ON" to activate a message above your employee listing in the Employee Directory.   Go down to the bottom of your profile page, and edit the "Out of office text" field. Enter custom out of office notification text here, and it will show above your user photo in the Employee Directory, assuming you have activated the out of office alert at the top of the page.
+In "Users / Your Profile" at the top of the page you will see "Out of office notification is OFF. | Turn ON.".  Click "Turn ON" to activate a message above your employee listing in the Employee Directory.   Go down to the bottom of your profile page, and edit the "Out of office text" field. Enter custom out of office notification text here, and it will show above your user photo in the Employee Directory, assuming you have activated the out of office alert at the top of the page.
 
 = Can Admins change the out of office status for other users? =
 Yes, they can edit any users profile information and just update the pull-down menu "Update out of office status" further down a user's profile page.  Just remember that when logged in as an Admin or other user, if you click to "Turn On or Off" the out of office alert at the top of the user profile page, that will only affect the logged in user out of office status (and not the user which you are editing).
+
+= How do I set up more detailed employee profiles in the Employee Directory? =
+We have added the ability to enable a custom editable biography page when you click-through from the main listing of the Employee Directory.  This will allow employees to upload files, add photos and customize the layout and formatting of their own profile page.  The first time the employee directory is activated (by adding the [employees] shortcode to any page or post), the detailed biography page will be prepopulated with all available information from the Users / Your Profile section of the Dashboard.  Once this page is accessed for the first time, it can then be edited and overwritten with custom content.
+
+= Where do I find options to set the Employee Directory detailed pages? =
+Login as an Administrator and "Visit Users / Your Profile" and scroll down to Company Information to view these selectable options:
+* Check if you want to include a clickable profile page accessible by clicking on the photo or name in the Employee Directory.
+Note, each person will have a post generated with their name as the title, and saved in the Employees category.
+* Check to allow each user to create and edit a custom HTML detail/biography page. 
+* Check to hide all e-mails from the Employee Directory. 
 
 == Screenshots ==
 
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 1.6=
+* We have completely overhauled the User Photo/Avatar functionality to make it easier to use and more reliable.  We have also optimized the Employee Directory search function by improving search relevance and loading times for queries by over 50%.  We have added 2 sidebar widgets: Out of Office, and Employees listings both with photos. We have also added a raft of drill-down clickable employee profile options for the Employee Directory.
+
 = 1.5 =
 * Added sorting order to Employee Directory results.  Default order is by user first name when directory page is loaded.  When text field is empty, and title or department is chosen, then results now show alphabetically (e.g. by what is selected in the pull-down search menu).
 

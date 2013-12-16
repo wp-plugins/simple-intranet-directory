@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 1.6
+Version: 1.7
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -864,7 +864,7 @@ echo '<h1><a href="../index.php" target="_blank">'.$title.'</a></h1><br>';
 _e( 'Want online forms, a calendar, activity feed and file management for your intranet? <strong><a href="http://www.simpleintranet.org">Visit Simple Intranet</a>.</strong><br><br>');
 	_e('<h3><strong>Setup An Employee Directory</strong></h3>');
 	_e('a) To add an Employee Directory with photos, insert the <strong>[employees]</strong> shortcode into any page or post.<br>');	
-	_e('b) <a href="user-new.php">Add new employees </a> and edit their profiles and upload photo avatars.<br>');
+	_e('b) <a href="user-new.php">Add new employees</a> and edit their profiles and upload photo avatars.<br>');
 	_e('c) Enable options (admins only) under the <em>Enable Detailed Employee Directory Page?</em> heading in <a href="profile.php">Your Profile</a>.<br>');
 	_e('d) An archive of all employee biographies can be found at <a href="'.$homeurl.'/bios">'.$homeurl.'/bios</a>.<br>');
 	_e('e) You must <a href="options-permalink.php">change your Permalinks</a> from "Default" to "Post name".<br>');
@@ -874,8 +874,8 @@ _e( 'Want online forms, a calendar, activity feed and file management for your i
 		_e('- To add a searchable employee directory to a page or post, insert the <strong>[employees]</strong> shortcode. Optionally limit to 10 people per page (25 is default) using the limit parameter: <strong>[employees limit="10"]</strong>.<br>');
 		
 	_e('<h4><em>Widgets</em></h4>');
-
-	_e('- Display a list of employee using the <strong>Employees</strong> widget.<br>');
+	_e('- Provide an employee directory search function using the <strong>Search Employees</strong> widget.<br>');
+	_e('- Display a list of employees using the <strong>Employees</strong> widget.<br>');
 		_e('- Display out of office notifications in the employee directory using the <strong>Employee Out of Office</strong> widget.<br>');
 				
 }
@@ -911,6 +911,7 @@ extract(shortcode_atts(array(
 	), $params));	
 
 // employee search form  // 
+add_option('employeespagesearch', get_permalink($id));
 echo '<form method="POST" id="employeesearchform" action="'.get_permalink($id).'" >
 	<div><input type="text" name="si_search" id="si_search" />
 	<select name="type" id="type">';
@@ -946,7 +947,6 @@ $page = (get_query_var('page')) ? get_query_var('page') : 1;
 // Calculate the offset (i.e. how many users we should skip)
 $offset = ($page - 1) * $number;
 
-// prepare arguments
 // prepare arguments
 
 if ($type==""){
@@ -1616,5 +1616,71 @@ global $in_out, $officeexpire, $current_user;
 	//  date_default_timezone_set($tz); // set the PHP timezone back the way it was
 }
 
+// Employee Search Widget
+
+class EmployeeSearchWidget extends WP_Widget
+{
+  function EmployeeSearchWidget()
+  {
+    $widget_ops = array('classname' => 'EmployeeSearchWidget', 'description' => __('An employee search option.') );
+    $this->WP_Widget('EmployeeSearchWidget', 'Employee Search', $widget_ops);
+  }
+ 
+  function form($instance)
+  {
+    $instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+    $title = $instance['title'];
+?>
+  <p><label for="<?php echo $this->get_field_id('title'); ?>">Title: <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
+<?php
+  }
+ 
+  function update($new_instance, $old_instance)
+  {
+    $instance = $old_instance;
+    $instance['title'] = $new_instance['title'];
+    return $instance;
+  }
+ 
+  function widget($args, $instance)
+  {
+    extract($args, EXTR_SKIP);
+    echo $before_widget;
+    $title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);	
+    if (!empty($title))
+      echo $before_title . $title . $after_title;
+ 
+    // WIDGET CODE GOES HERE
+$wp_user_query12 = new WP_User_Query($args);
+$authors12 = $wp_user_query12->get_results();
+// employee search form  
+$eurl=get_option('employeespagesearch');
+echo '<form method="POST" id="employeesearchformwidget" action="'.$eurl.'" ><input type="text" name="si_search" id="si_search" /><select name="type" id="type">';
+$t=ucfirst(	$_POST['type']);
+if ($t!='') { ?><option value="<?php echo $t;?>" selected="selected"><?php echo $t;?></option><?php } 
+$name1= __('First Name','simpleintranet');
+$name2= __('Last Name','simpleintranet');
+$email2= __('E-mail','simpleintranet');
+$title1= __('Title','simpleintranet');
+$dept1= __('Department','simpleintranet');
+echo ' <option value="First Name">'.$name1.'</option>
+<option value="Last Name">'.$name2.'</option>
+<option value="E-mail">'.$email2.'</option>
+	  <option value="Title">'.$title1.'</option>
+	  <option value="Department">'.$dept1.'</option>';
+foreach ($wp_roles->role_names as $roledex => $rolename) {
+        $role = $wp_roles->get_role($roledex);	
+if ($roledex!="administrator" && $roledex!="editor" && $roledex!="subscriber" && $roledex!="author" && $roledex!="contributor"){		
+echo '<option value="'.$roledex.'">'.$rolename.'</option>';
+}
+
+}
+echo '</select><input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" /></form><br>';
+// End of search
+echo $after_widget;	
+  }
+ 
+}
+add_action( 'widgets_init', create_function('', 'return register_widget("EmployeeSearchWidget");') );
 
 ?>

@@ -3,8 +3,8 @@ Contributors: charlwood
 Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
-Tested up to: 3.6.1
-Stable tag: 1.6
+Tested up to: 3.8
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,11 +12,13 @@ A simple employee directory with photos for your intranet or business.
 
 == Description ==
 
-*Simple Intranet Directory* is an easy to use employee directory listing of your users that includes extended profile information, user photos and a search function.  We have also added custom fields, an out of office alert function and sidebar widget, custom HTML biographies and an employees sidebar widget.
+*Simple Intranet Directory* is an easy to use employee directory listing of your users that includes extended profile information, user photos and a search function.  We have also added custom fields, an out of office alert function and sidebar widget, custom HTML biographies, an employee directory search widget and an employees sidebar widget.
 
-Upgrade to the full version of our Simple Intranet (http://www.simpleintranet.org) plugin and get these features;
+Upgrade to the full version of our Simple Intranet (http://www.simpleintranet.org) plugin suite and get these features;
 
+* employee grid/table view with a search widget
 * secure intranet site-wide or page/post specific password protection 
+* bulk user import function from CSV file
 * Google/Active Directory single sign-on (SSO)
 * out of office expiry date and custom text options and widget
 * employee of the month, company anniversary and employee birthdays widget
@@ -83,6 +85,10 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 1.7=
+* Provides an employee directory search function using the Search Employees widget.
+* Optimizes directory for WordPress 3.8.
+
 = 1.6=
 * We have completely overhauled the User Photo/Avatar functionality to make it easier to use and more reliable.  We have also optimized the Employee Directory search function by improving search relevance and loading times for queries by over 50%.  We have added 2 sidebar widgets: Out of Office, and Employees listings both with photos. We have also added a raft of drill-down clickable employee profile options for the Employee Directory.
 

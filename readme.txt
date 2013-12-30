@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 1.7
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,11 +85,14 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
-= 1.7=
+= 1.8 =
+* Updated div and class labels to avoid theme conflicts.
+
+= 1.7 =
 * Provides an employee directory search function using the Search Employees widget.
 * Optimizes directory for WordPress 3.8.
 
-= 1.6=
+= 1.6 =
 * We have completely overhauled the User Photo/Avatar functionality to make it easier to use and more reliable.  We have also optimized the Employee Directory search function by improving search relevance and loading times for queries by over 50%.  We have added 2 sidebar widgets: Out of Office, and Employees listings both with photos. We have also added a raft of drill-down clickable employee profile options for the Employee Directory.
 
 = 1.5 =

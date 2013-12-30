@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 1.7
+Version: 1.8
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -1241,7 +1241,7 @@ if ($addprofile=="Yes" && $letin>0){
 $post = array(
   'post_title'    => $fullname, 
   'post_name'	  => $fullname,  
-   'post_content'  => '<div id="wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,150).'</div><div class="employeebioprofile"><div class="outofoffice">'.$officetext.'</div>'.$title.$dept.$company.$address.$postal.$city.$state.$country.$email.$phone2.$ext.$mobile2.$fax2.$city.$state.$country.'</div><br>'.$custom1label.$custom1.$cu1.$custom2label.$custom2.$cu2.$custom3label.$custom3.$cu3.$website.'<div class="socialicons">'.$twitter.$facebook.$linkedin.$googleplus.'</div><br><div class="employeebiographyprofile">'.$biography.'</div></div>',
+   'post_content'  => '<div class="si-employees-wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,150).'</div><div class="employeebioprofile"><div class="outofoffice">'.$officetext.'</div>'.$title.$dept.$company.$address.$postal.$city.$state.$country.$email.$phone2.$ext.$mobile2.$fax2.$city.$state.$country.'</div><br>'.$custom1label.$custom1.$cu1.$custom2label.$custom2.$cu2.$custom3label.$custom3.$cu3.$website.'<div class="socialicons">'.$twitter.$facebook.$linkedin.$googleplus.'</div><br><div class="employeebiographyprofile">'.$biography.'</div></div>',
    'post_author' => $author->ID,
   'post_type' => 'si_profile',
   'post_status'   => 'publish'
@@ -1259,7 +1259,7 @@ else {
 $post_id=$page_exists->ID;
 $updated_post = array(
 'ID' => $post_id,
- 'post_content'  => '<div class="wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,150).'</div><div class="outofoffice">'.$officetext.'</div>
+ 'post_content'  => '<div class="si-employees-wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,150).'</div><div class="outofoffice">'.$officetext.'</div>
 <div class="employeebioprofile"><span class="sid_title">'.$title.'</span><span class="sid_dept">'.$dept.'</span><span class="sid_company">'.$company.'</span><span class="sid_address">'.$address.'</span><span class="sid_postal">'.$postal.'</span><span class="sid_city">'.$city.'</span><span class="sid_state">'.$state.'</span><span class="sid_country">'.$country.'</span><span class="sid_email">'.$email.'</span><span class="sid_phone">'.$phone2.'</span><span class="sid_phone_extension">'.$ext.'</span><span class="sid_mobile_phone">'.$mobile2.'</span><span class="sid_fax">'.$fax2.'</span><br>
 <span class="sid_custom1_label">'.$custom1label.'</span><span class="sid_custom1">'.$custom1.$cu1.'</span><span class="sid_custom2_label">'.$custom2label.'</span><span class="sid_custom2">'.$custom2.$cu2.'</span><span class="sid_custom3_label">'.$custom3label.'</span><span class="sid_custom3">'.$custom3.$cu3.'</span><span class="sid_website">'.$website.'</span></div><div class="socialicons">'.$twitter.$facebook.$linkedin.$googleplus.'</div><br><div class="employeebiographyprofile">'.$biography.'</div></div>',
 'post_author' => $author->ID,
@@ -1274,7 +1274,7 @@ wp_update_post( $updated_post);
 }
 }
 } // end of extended profile check
-echo '<div id="wrap"><div class="employeephoto">';
+echo '<div class="si-employees-wrap"><div class="employeephoto">';
 if ($addprofile=="Yes"){ ?><a href="<?php echo get_permalink($post_id);?>"><?php } ;
 echo get_avatar( $author->ID);
 if ($addprofile=="Yes"){ ?></a><?php } 
@@ -1480,7 +1480,7 @@ $last = get_the_author_meta('last_name', $author2->ID);
 $title = get_the_author_meta('title', $author2->ID);
 $email = get_the_author_meta('email', $author2->ID);
 if ($inoffice=='true' || $in_out=='true'){
-echo '<div id="wrap"><div class="employeephotowidget">';
+echo '<div class="si-employees-wrap"><div class="employeephotowidget">';
 if(get_avatar($author2->ID,40))
 echo get_avatar($author2->ID,40);
 echo '</div>';
@@ -1561,7 +1561,7 @@ $c=$c+1;
 $first6 = get_the_author_meta('first_name', $author6->ID);
 $last6 = get_the_author_meta('last_name', $author6->ID);	
 if (get_the_author_meta( 'exclude', $author6->ID )!="Yes"){
-echo '<div id="wrap"><div class="employeephotowidget">';
+echo '<div class="si-employees-wrap"><div class="employeephotowidget">';
 if(get_avatar($author6->ID,40))
 echo get_avatar($author6->ID,40);
 echo '</div>';

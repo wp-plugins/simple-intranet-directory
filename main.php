@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 1.8
+Version: 1.9
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2

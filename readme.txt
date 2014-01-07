@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 1.8
+Stable tag: 1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 1.9 =
+* Updated si_employees.css to fix width issues with Twenty Fourteen theme.
+
 = 1.8 =
 * Updated div and class labels to avoid theme conflicts.
 

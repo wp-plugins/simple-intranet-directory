@@ -30,14 +30,12 @@ margin-right: 5.6%;
    
 }
 .employeephoto {
-	padding: 10px 0 0 0;
-	width: 100px;
+	padding: 10px 0 0 0;	
     float: left; 
 }
 .employeephotoprofile {
 	padding: 10px 10px 0 0;
-	width: 150px;
-    float: left; 
+	float: left; 
 }
 .sid_fullname {	
 	font-weight: bold;

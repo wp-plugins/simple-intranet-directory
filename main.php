@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 1.9
+Version: 2.0
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -871,7 +871,7 @@ _e( 'Want online forms, a calendar, activity feed and file management for your i
 	_e('USER PHOTOS NOT WORKING? Try checking the option for Use Legacy User Photos? at the bottom of <a href="profile.php">Your Profile</a>.<br><br>');
 	
 	_e('<h4><em>Shortcodes</em></h4>');
-		_e('- To add a searchable employee directory to a page or post, insert the <strong>[employees]</strong> shortcode. Optionally limit to 10 people per page (25 is default) using the limit parameter: <strong>[employees limit="10"]</strong>.<br>');
+		_e('- To add a searchable employee directory to a page or post, insert the <strong>[employees]</strong> shortcode. Limit to 25 employees per page using the limit parameter, display the search bar above the listing, exclude "board" and "executive" custom groups (use slugs) from search pull-down, set avatar pixel width to 100 and display only Subscriber roles as follows: <strong>[employees limit="25" search="yes" search_exclude="board,executive" avatar="100" group="subscriber"]</strong>.<br>');
 		
 	_e('<h4><em>Widgets</em></h4>');
 	_e('- Provide an employee directory search function using the <strong>Search Employees</strong> widget.<br>');
@@ -907,11 +907,16 @@ global $wp_roles;
 $role_count=count_roles();
 
 extract(shortcode_atts(array(
-		'limit' => 25
+		'limit' => 25,
+		'search_exclude'=>'',
+		'avatar'=>100,
+		'search'=>'yes',
+		'group'=>'',
 	), $params));	
-
+$group_exclude_array = explode( ',', $params['search_exclude'] );
 // employee search form  // 
 add_option('employeespagesearch', get_permalink($id));
+if($search=='yes'){
 echo '<form method="POST" id="employeesearchform" action="'.get_permalink($id).'" >
 	<div><input type="text" name="si_search" id="si_search" />
 	<select name="type" id="type">';
@@ -928,11 +933,14 @@ echo ' <option value="First Name">'.$name1.'</option>
 foreach ($wp_roles->role_names as $roledex => $rolename) {
         $role = $wp_roles->get_role($roledex);	
 if ($roledex!="administrator" && $roledex!="editor" && $roledex!="subscriber" && $roledex!="author" && $roledex!="contributor"){		
+if(!in_array($roledex,$group_exclude_array)){ 
 echo '<option value="'.$roledex.'">'.$rolename.'</option>';
 }
 }
-echo '</select><input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" /></div></form><br>';
 
+}
+echo '</select><input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" /></div></form><br>';
+}
 //employee directory or search resulrts
 global $wpdb,$type,$page;
 $name = ( isset($_POST["si_search"]) ) ? sanitize_text_field($_POST["si_search"]) : false ;
@@ -953,6 +961,7 @@ if ($type==""){
 $args  = array(
 'number' => $number,
 'offset' => $offset,
+'role' => $group,
 );
 $authors = get_users($args);
 }
@@ -961,6 +970,7 @@ elseif ($type=="First Name"){
 $args  = array(
 'number' => $number,
 'offset' => $offset,
+'role' => $group,
 'meta_query' => array(
 					  'relation' => 'OR',
 					  
@@ -977,6 +987,7 @@ elseif ($type=="Last Name"){
 $args  = array(
 'number' => $number,
 'offset' => $offset,
+'role' => $group,
 'meta_query' => array(
 					  'relation' => 'OR',
 					  
@@ -993,6 +1004,7 @@ elseif ($type=="Title"){
 $args  = array(
 'number' => $number,
 'offset' => $offset,
+'role' => $group,
 'meta_query' => array(
 					  'relation' => 'OR',				  
 
@@ -1015,6 +1027,7 @@ elseif ($type=="Department"){
 $args  = array(
 'number' => $number,
 'offset' => $offset,
+'role' => $group,
 'meta_query' => array(
 					  'relation' => 'OR',				  
 
@@ -1037,6 +1050,7 @@ $args  = array(
 'role' => $type,
 'number' => $number,
 'offset' => $offset,
+'role' => $group,
 // check for two meta_values
 'meta_query' => array(
 					  'relation' => 'OR',	  
@@ -1241,7 +1255,7 @@ if ($addprofile=="Yes" && $letin>0){
 $post = array(
   'post_title'    => $fullname, 
   'post_name'	  => $fullname,  
-   'post_content'  => '<div class="si-employees-wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,150).'</div><div class="employeebioprofile"><div class="outofoffice">'.$officetext.'</div>'.$title.$dept.$company.$address.$postal.$city.$state.$country.$email.$phone2.$ext.$mobile2.$fax2.$city.$state.$country.'</div><br>'.$custom1label.$custom1.$cu1.$custom2label.$custom2.$cu2.$custom3label.$custom3.$cu3.$website.'<div class="socialicons">'.$twitter.$facebook.$linkedin.$googleplus.'</div><br><div class="employeebiographyprofile">'.$biography.'</div></div>',
+   'post_content'  => '<div class="si-employees-wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,$avatar).'</div><div class="employeebioprofile"><div class="outofoffice">'.$officetext.'</div>'.$title.$dept.$company.$address.$postal.$city.$state.$country.$email.$phone2.$ext.$mobile2.$fax2.$city.$state.$country.'</div><br>'.$custom1label.$custom1.$cu1.$custom2label.$custom2.$cu2.$custom3label.$custom3.$cu3.$website.'<div class="socialicons">'.$twitter.$facebook.$linkedin.$googleplus.'</div><br><div class="employeebiographyprofile">'.$biography.'</div></div>',
    'post_author' => $author->ID,
   'post_type' => 'si_profile',
   'post_status'   => 'publish'
@@ -1259,7 +1273,7 @@ else {
 $post_id=$page_exists->ID;
 $updated_post = array(
 'ID' => $post_id,
- 'post_content'  => '<div class="si-employees-wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,150).'</div><div class="outofoffice">'.$officetext.'</div>
+ 'post_content'  => '<div class="si-employees-wrap"><div class="employeephotoprofile">'.get_avatar($author->ID,$avatar).'</div><div class="outofoffice">'.$officetext.'</div>
 <div class="employeebioprofile"><span class="sid_title">'.$title.'</span><span class="sid_dept">'.$dept.'</span><span class="sid_company">'.$company.'</span><span class="sid_address">'.$address.'</span><span class="sid_postal">'.$postal.'</span><span class="sid_city">'.$city.'</span><span class="sid_state">'.$state.'</span><span class="sid_country">'.$country.'</span><span class="sid_email">'.$email.'</span><span class="sid_phone">'.$phone2.'</span><span class="sid_phone_extension">'.$ext.'</span><span class="sid_mobile_phone">'.$mobile2.'</span><span class="sid_fax">'.$fax2.'</span><br>
 <span class="sid_custom1_label">'.$custom1label.'</span><span class="sid_custom1">'.$custom1.$cu1.'</span><span class="sid_custom2_label">'.$custom2label.'</span><span class="sid_custom2">'.$custom2.$cu2.'</span><span class="sid_custom3_label">'.$custom3label.'</span><span class="sid_custom3">'.$custom3.$cu3.'</span><span class="sid_website">'.$website.'</span></div><div class="socialicons">'.$twitter.$facebook.$linkedin.$googleplus.'</div><br><div class="employeebiographyprofile">'.$biography.'</div></div>',
 'post_author' => $author->ID,
@@ -1276,7 +1290,7 @@ wp_update_post( $updated_post);
 } // end of extended profile check
 echo '<div class="si-employees-wrap"><div class="employeephoto">';
 if ($addprofile=="Yes"){ ?><a href="<?php echo get_permalink($post_id);?>"><?php } ;
-echo get_avatar( $author->ID);
+echo get_avatar( $author->ID,$avatar);
 if ($addprofile=="Yes"){ ?></a><?php } 
 echo '</div><div class="employeebio">';
 if($inoffice=='true') {

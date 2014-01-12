@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 2.0
+Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 2.1 = 
+* Fixed search_exclude array error appearing in older PHP versions.
+
 = 2.0 =
 *  Added lots of extra parameters to the [employees] shortcode. Limit to 25 employees per page using the limit parameter, display the search bar above the listing, exclude "board" and "executive" custom groups from search pull-down, set avatar pixel width to 100 and display only Subscriber roles as follows: [employees limit="25" search="yes" search_exclude="board,executive" avatar="100" group="subscriber"].
 

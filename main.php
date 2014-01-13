@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.1
+Version: 2.2
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -871,7 +871,7 @@ _e( 'Want online forms, a calendar, activity feed and file management for your i
 	_e('USER PHOTOS NOT WORKING? Try checking the option for Use Legacy User Photos? at the bottom of <a href="profile.php">Your Profile</a>.<br><br>');
 	
 	_e('<h4><em>Shortcodes</em></h4>');
-		_e('- To add a searchable employee directory to a page or post, insert the <strong>[employees]</strong> shortcode. Limit to 25 employees per page using the limit parameter, display the search bar above the listing, exclude "board" and "executive" custom groups (use slugs) from search pull-down, set avatar pixel width to 100 and display only Subscriber roles as follows: <strong>[employees limit="25" search="yes" search_exclude="board,executive" avatar="100" group="subscriber"]</strong>.<br>');
+		_e('- To add a searchable employee directory to a page or post, insert the <strong>[employees]</strong> shortcode. Limit to 25 employees per page using the limit parameter, display the search bar above the listing with title and department search options, exclude "board" and "executive" custom groups (use slugs) from search pull-down, set avatar pixel width to 100 and display only Subscriber roles as follows: <strong>[employees limit="25" search="yes" title="yes" department="yes" search_exclude="board,executive" avatar="100" group="subscriber"]</strong>.<br>');
 		
 	_e('<h4><em>Widgets</em></h4>');
 	_e('- Provide an employee directory search function using the <strong>Search Employees</strong> widget.<br>');
@@ -912,6 +912,8 @@ extract(shortcode_atts(array(
 		'avatar'=>100,
 		'search'=>'yes',
 		'group'=>'',
+		'department'=>'yes',
+		'title'=>'yes',
 	), $params));	
 
 if(isset($params['search_exclude'])){
@@ -933,9 +935,12 @@ $name2= __('Last Name','simpleintranet');
 $title1= __('Title','simpleintranet');
 $dept1= __('Department','simpleintranet');
 echo ' <option value="First Name">'.$name1.'</option>
-<option value="Last Name">'.$name2.'</option>
-	  <option value="Title">'.$title1.'</option>
-	  <option value="Department">'.$dept1.'</option>';
+<option value="Last Name">'.$name2.'</option>';
+if($title=='yes'){
+echo '<option value="Title">'.$title1.'</option>';
+}
+if($department=='yes'){
+echo  '<option value="Department">'.$dept1.'</option>';
 foreach ($wp_roles->role_names as $roledex => $rolename) {
         $role = $wp_roles->get_role($roledex);	
 if ($roledex!="administrator" && $roledex!="editor" && $roledex!="subscriber" && $roledex!="author" && $roledex!="contributor"){		
@@ -943,7 +948,7 @@ if(!in_array($roledex,$group_exclude_array)){
 echo '<option value="'.$roledex.'">'.$rolename.'</option>';
 }
 }
-
+}
 }
 echo '</select><input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" /></div></form><br>';
 }

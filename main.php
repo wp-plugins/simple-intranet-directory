@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.2
+Version: 2.3
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -789,6 +789,24 @@ function enqueue_date_picker2(){
 		echo "checked=\"checked\"";
 	} ?>> <label for="phoneaustralia" ><?php _e('Use Australian phone format for Employee Directory.', 'simpleintranet'); ?></label></td>
 		</tr>
+         <tr>
+			<th>
+				<label for="phonesouthafrica"><?php _e('South African Phone Format?', 'simpleintranet'); ?>
+			</label></th>
+			<td align="left">
+				<input type="checkbox" name="phonesouthafrica" id="phonesouthafrica" value="Yes"  <?php if (get_option( 'phonesouthafrica')=="Yes"){
+		echo "checked=\"checked\"";
+	} ?>> <label for="phonesouthafrica" ><?php _e('Use South African phone format for Employee Directory.', 'simpleintranet'); ?></label></td>
+		</tr>
+       <tr>
+			<th>
+				<label for="phoneeurope"><?php _e('European Phone Format?', 'simpleintranet'); ?>
+			</label></th>
+			<td align="left">
+				<input type="checkbox" name="phoneeurope" id="phoneeurope" value="Yes"  <?php if (get_option( 'phoneeurope')=="Yes"){
+		echo "checked=\"checked\"";
+	} ?>> <label for="phoneeurope" ><?php _e('Use European phone format for Employee Directory.', 'simpleintranet'); ?></label></td>
+		</tr>
        
      
        <?php } ?>
@@ -825,6 +843,8 @@ function fb_save_custom_user_profile_fields( $user_id ) {
 	update_option('custombio', $_POST['custombio'] );
 	update_option('legacy_photos', $_POST['legacy_photos'] );
 	update_option('phoneaustralia', $_POST['phoneaustralia'] );
+	update_option('phonesouthafrica', $_POST['phonesouthafrica'] );
+	update_option('phoneeurope', $_POST['phoneeurope'] );
 	update_option('sroles', $_POST['savedroles']);
 	}
 	update_user_meta( $user_id, 'custom1', $_POST['custom1'] );	
@@ -1087,12 +1107,16 @@ $hideemail = get_option( 'hideemail' );
 $custombio = get_option( 'custombio' );
 
 // Format phone and fax #s
-function formatPhone($num)
+function sid_formatPhone($num)
 {
 $num = preg_replace('/[^0-9]/', '', $num);
 $len = strlen($num);
 if (get_option( 'phoneaustralia')=="Yes" && $len == 10)
 $num = preg_replace('/([0-9]{2})([0-9]{4})([0-9]{4})/', '$1 $2 $3', $num);
+if (get_option( 'phonesouthafrica')=="Yes" && $len == 11)
+$num = preg_replace('/([0-9]{2})([0-9]{2})([0-9]{3})([0-9]{4})/', '+$1 $2 $3 $4', $num);
+if (get_option( 'phoneeurope')=="Yes" && $len == 12)
+$num = preg_replace('/([0-9]{2})([0-9]{2})([0-9]{3})([0-9]{2})([0-9]{2})([0-9]{1})/', '+$1 $2 $3 $4 $5 $6', $num);
 elseif($len == 7)
 $num = preg_replace('/([0-9]{3})([0-9]{4})/', '$1-$2', $num);
 elseif($len == 10)
@@ -1186,17 +1210,17 @@ $phonelabel = get_option('phonelabel');
 $phoneextlabel = get_option('phoneextlabel');
 $mobilelabel = get_option('mobilelabel');
 $faxlabel = get_option('faxlabel');
-$phone2 =  formatPhone($phone);
+$phone2 =  sid_formatPhone($phone);
 if($phone!=''){
 $phone2=$phonelabel.'<a href="tel:'.$phone2.'">'.$phone2.'</a> ';
 }
 $mobilephone = get_the_author_meta('mobilephone', $author->ID);
-$mobile2= formatPhone($mobilephone);
+$mobile2= sid_formatPhone($mobilephone);
 if($mobilephone!=''){
 $mobile2=$mobilelabel.'<a href="tel:'.$mobile2.'">'.$mobile2.'</a>';
 }
 $fax = get_the_author_meta('fax', $author->ID);
-$fax2= formatPhone($fax);
+$fax2= sid_formatPhone($fax);
 if($fax!=''){
 $fax2=' | '.$faxlabel.'<a href="tel:'.$fax2.'">'.$fax2.'</a><br>';
 }

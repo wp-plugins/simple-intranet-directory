@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 2.2
+Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 2.2 =
+* Added European and South African phone formats to the directory for phone and fax numbers.
+
 = 2.2 =
 * Added title and department search parameters to the [employees] shortcode.  Default is [employees title="yes" department="yes"]
 

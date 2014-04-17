@@ -2,9 +2,9 @@
 Contributors: charlwood
 Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
-Requires at least: 3.0.1
-Tested up to: 3.8
-Stable tag: 2.1
+Requires at least: 3.5
+Tested up to: 3.9
+Stable tag: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,7 +85,10 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
-= 2.2 =
+= 2.4 =
+* Adds the option in Your Profile to allow public access for non-logged in users to view detailed employee profiles.
+
+= 2.3 =
 * Added European and South African phone formats to the directory for phone and fax numbers.
 
 = 2.2 =

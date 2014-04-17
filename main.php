@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.3
+Version: 2.4
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -142,20 +142,14 @@ global $in_out;
     <?php if(current_user_can('administrator') ) { ?>
     <tr>
 			<th>
-				<label for="profiledetail"><?php _e('Enable Detailed Employee Directory Page?', 'simpleintranet'); ?>
+				<label for="profiledetail"><?php _e('Employee Profile Page?', 'simpleintranet'); ?>
 			</label></th>
 			<td align="left">
            
 				<input type="checkbox" name="profiledetail" id="profiledetail" value="Yes"  <?php if (get_option( 'profiledetail' )=="Yes"){
 		echo "checked=\"checked\"";
-	} ?>> <label for="profiledetail" ><?php _e('Check if you want to include a clickable profile page accessible by clicking on the photo or name in the Employee Directory.<br>Note, each person will have a post generated with their name as the title, and saved in the Employees category.<br>', 'simpleintranet'); ?></label>
-    <input type="checkbox" name="custombio" id="custombio" value="Yes"  <?php if (get_option( 'custombio' )=="Yes"){
-		echo "checked=\"checked\"";
-	} ?>> Check to allow each user to create and edit a custom HTML detail/biography page. <br />
-     <input type="checkbox" name="hideemail" id="hideemail" value="Yes"  <?php if (get_option( 'hideemail' )=="Yes"){
-		echo "checked=\"checked\"";
-	} ?>> Check to hide all e-mails from the Employee Directory. <br />
- <blockquote>Check roles to allow access to detailed profile page; <br /><?php    
+	} ?>> <label for="profiledetail" ><?php _e('Include a profile page accessible by clicking on the photo or name in the Employee Directory.<br>Note, each person will have a post generated with their name as the title, and saved in the Employees category.<br>', 'simpleintranet'); ?></label>
+    <blockquote>Check roles to allow access to detailed profile page; <br /><?php    
 
     // Get WP Roles
     global $wp_roles;
@@ -171,6 +165,16 @@ global $in_out;
 }
 ?>  
 </blockquote>
+   <input type="checkbox" name="publicbio" id="publicbio" value="Yes"  <?php if (get_option( 'publicbio' )=="Yes"){
+		echo "checked=\"checked\"";
+	} ?>> Allow non-logged in users to view detail/biography page (overrides role settings above). <br />
+    <input type="checkbox" name="custombio" id="custombio" value="Yes"  <?php if (get_option( 'custombio' )=="Yes"){
+		echo "checked=\"checked\"";
+	} ?>> Allow each user to create and edit a custom HTML detail/biography page. <br />
+     <input type="checkbox" name="hideemail" id="hideemail" value="Yes"  <?php if (get_option( 'hideemail' )=="Yes"){
+		echo "checked=\"checked\"";
+	} ?>> Hide all e-mails from the Employee Directory. <br />
+ 
     </td>
 		</tr><?php } ?>
 		
@@ -840,6 +844,7 @@ function fb_save_custom_user_profile_fields( $user_id ) {
 	update_option('custom3label', $_POST['custom3label'] );
 	update_option('profiledetail', $_POST['profiledetail'] );
 	update_option('hideemail', $_POST['hideemail'] );
+	update_option('publicbio', $_POST['publicbio'] );
 	update_option('custombio', $_POST['custombio'] );
 	update_option('legacy_photos', $_POST['legacy_photos'] );
 	update_option('phoneaustralia', $_POST['phoneaustralia'] );
@@ -885,7 +890,7 @@ _e( 'Want online forms, a calendar, activity feed and file management for your i
 	_e('<h3><strong>Setup An Employee Directory</strong></h3>');
 	_e('a) To add an Employee Directory with photos, insert the <strong>[employees]</strong> shortcode into any page or post.<br>');	
 	_e('b) <a href="user-new.php">Add new employees</a> and edit their profiles and upload photo avatars.<br>');
-	_e('c) Enable options (admins only) under the <em>Enable Detailed Employee Directory Page?</em> heading in <a href="profile.php">Your Profile</a>.<br>');
+	_e('c) Enable options (admins only) under the <em>Employee Profile Page?</em> heading in <a href="profile.php">Your Profile</a>.<br>');
 	_e('d) An archive of all employee biographies can be found at <a href="'.$homeurl.'/bios">'.$homeurl.'/bios</a>.<br>');
 	_e('e) You must <a href="options-permalink.php">change your Permalinks</a> from "Default" to "Post name".<br>');
 	_e('USER PHOTOS NOT WORKING? Try checking the option for Use Legacy User Photos? at the bottom of <a href="profile.php">Your Profile</a>.<br><br>');
@@ -1104,6 +1109,7 @@ $total_pages = intval($total_authors / $number) + 1;
 // Create employees category
 $addprofile = get_option( 'profiledetail' ); // check for clickable profile post option
 $hideemail = get_option( 'hideemail' );
+$publicbio = get_option( 'publicbio' );
 $custombio = get_option( 'custombio' );
 
 // Format phone and fax #s
@@ -1276,10 +1282,10 @@ $user_roles = $current_user->roles;
 $user_role = array_shift($user_roles);
 $allowed = get_option('sroles');	
 
-if($allowed!=''){
+if($allowed!='' ){
 $letin="";	
 foreach ($allowed as $key=>$value){
-if($key==$user_role){
+if($key==$user_role || $publicbio=="Yes"){
 $letin=$letin+1;
 }
 }
@@ -1324,14 +1330,14 @@ wp_update_post( $updated_post);
 }
 } // end of extended profile check
 echo '<div class="si-employees-wrap"><div class="employeephoto">';
-if ($addprofile=="Yes"){ ?><a href="<?php echo get_permalink($post_id);?>"><?php } ;
+if ($addprofile=="Yes" || $publicbio=="Yes"){ ?><a href="<?php echo get_permalink($post_id);?>"><?php } ;
 echo get_avatar( $author->ID,$avatar);
-if ($addprofile=="Yes"){ ?></a><?php } 
+if ($addprofile=="Yes" || $publicbio=="Yes"){ ?></a><?php } 
 echo '</div><div class="employeebio">';
 if($inoffice=='true') {
 echo '<div class="outofoffice">'.$officetext.'</div>';
 }
-?><?php if ($addprofile=="Yes"){ ?>
+?><?php if ($addprofile=="Yes" || $publicbio=="Yes"){ ?>
 <div class="sid_fullname"><a href="<?php echo get_permalink($post_id);?>"><?php echo $first.' '.$last; ?></a></div>
 <?php  } 
 else {

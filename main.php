@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.4
+Version: 2.5
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -939,6 +939,8 @@ extract(shortcode_atts(array(
 		'group'=>'',
 		'department'=>'yes',
 		'title'=>'yes',
+		'sort'=>'last_name',
+		'order'=>'ASC',
 	), $params));	
 
 if(isset($params['search_exclude'])){
@@ -998,6 +1000,9 @@ $args  = array(
 'number' => $number,
 'offset' => $offset,
 'role' => $group,
+'orderby' => 'meta_value',
+'order' => $order,
+'meta_key' => $sort,
 );
 $authors = get_users($args);
 }

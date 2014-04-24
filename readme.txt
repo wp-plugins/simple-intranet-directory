@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 2.4
+Stable tag: 2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,7 +54,7 @@ Thank you for downloading our Simple Intranet Directory plugin.  Here is a quick
 
 = How do I add the directory? =
 
-Simply add the [employees] shortcode into any post or page.  Then update users profile information if you are an admin, or have your users update their own profiles under "Users / Your Profile" when they login. Limit to 25 employees per page using the limit parameter, display the search bar above the listing, exclude for example "board" and "executive" custom groups from search pull-down, set avatar pixel width to 100 and display only Subscriber roles as follows: [employees limit="25" search="yes" search_exclude="board,executive" avatar="100" group="subscriber"].
+Simply add the [employees] shortcode into any post or page.  Then update users profile information if you are an admin, or have your users update their own profiles under "Users / Your Profile" when they login. Limit to 25 employees per page using the limit parameter, display the search bar above the listing, exclude for example "board" and "executive" custom groups from search pull-down, set avatar pixel width to 100, display only Subscriber roles and sort by last name in ascending order as follows: [employees limit="25" search="yes" search_exclude="board,executive" avatar="100" group="subscriber" sort="last_name" order="ASC"].
 
 = How can I change the look of my employee directory? =
 
@@ -85,6 +85,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 2.5 =
+* Adds two new parameters to the employees shortcode to allow for sorting the directory by default when loading.  For example, [employees sort="last_name" order="ASC"] would sort by last names in ascending order (starting with A to Z).
+
 = 2.4 =
 * Adds the option in Your Profile to allow public access for non-logged in users to view detailed employee profiles.
 

@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 2.5
+Stable tag: 2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,20 +16,21 @@ A simple employee directory with photos for your intranet or business.
 
 Upgrade to the full version of our Simple Intranet (http://www.simpleintranet.org) plugin suite and get these features;
 
-* employee grid/table view with a search widget
-* secure intranet site-wide or page/post specific password protection 
+* searchable employee directory with photos with grid option
+* privately secure part or all of your site as a company intranet
+* company events calendar that syncs with Google Calendar
+* online forms that you can customize for HR or contact inquiries
+* Dropbox-like drag and drop front-end file management 
 * bulk user import function from CSV file
 * Google/Active Directory single sign-on (SSO)
 * out of office expiry date and custom text options and widget
-* employee of the month, company anniversary and employee birthdays widget
+* employee of the month, company anniversary and employee birthday widgets
 * drill-down detailed employee biography profiles (prepopulated or custom HTML)
 * branded login and admin panels with your logo
 * Facebook-like real-time activity feed for employee communication
-* private Dropbox-like drag and drop file management with user permissions by folder or file
 * front-end user edited Wiki for group editing and collaboration
 * employee online survey poll widget and archive
 * an upcoming events calendar/listing page and widget with e-mail notifications
-* contact and HR forms with downloads on the backend
 * most popular content sidebar widget (records views of all pages/posts)
 * appointment and conference room bookings
 * Question & Answer page function like Quora, Yahoo Answers, StackOverflow
@@ -85,6 +86,10 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+
+= 2.6 =
+* Added address and postal/zip code user profile information to the front page of directory (left blank it will not appear).
+
 = 2.5 =
 * Adds two new parameters to the employees shortcode to allow for sorting the directory by default when loading.  For example, [employees sort="last_name" order="ASC"] would sort by last names in ascending order (starting with A to Z).
 

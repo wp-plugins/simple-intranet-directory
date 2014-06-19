@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.6
+Version: 2.7
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -12,7 +12,6 @@ License: GPL2
 Credit goes Jake Goldman, Avatars Plugin, (http://www.10up.com/) for contributing to this code that allows for user photo uploads.
 */
 
-add_action( 'init', 'si_create_bio_post_type' );
 function si_create_bio_post_type() {
 
 load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FILE__ ) ). '/languages' ); 	
@@ -62,6 +61,13 @@ load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FIL
 				$role2->add_cap( 'si_delete_profiles' );
 }
 }
+
+function sid_rewrite_flush() {
+   si_create_bio_post_type();
+   flush_rewrite_rules();
+}
+register_activation_hook( __FILE__, 'sid_rewrite_flush' );
+
 if (get_option( 'legacy_photos')=="No" || get_option( 'legacy_photos')==""){
 include dirname(__FILE__) . '/avatars.php';
 }
@@ -1150,25 +1156,40 @@ $website=get_the_author_meta('user_url',$author->ID);
 if($website!=''){
 $website='Website: <a href="'.$website.'">'.$website.'</a><br>';
 }
+else{
+$website='';
+}
 $twitter=get_the_author_meta('twitter',$author->ID);
 if($twitter!=''){
 $tw= plugins_url('/images/si_twitter.gif', __FILE__);
 $twitter='<a href="'.$twitter.'"><img src="'.$tw.'"></a>  ';
+}
+else{
+$twitter='';
 }
 $facebook=get_the_author_meta('facebook',$author->ID);
 if($facebook!=''){
 $fb= plugins_url('/images/si_facebook.gif', __FILE__);
 $facebook='<a href="'.$facebook.'"><img src="'.$fb.'"></a>  ';
 }
+else{
+$facebook='';
+}
 $linkedin=get_the_author_meta('linkedin',$author->ID);
 if($linkedin!=''){
 $li= plugins_url('/images/si_linkedin.gif', __FILE__);
 $linkedin='<a href="'.$linkedin.'"><img src="'.$li.'"></a>  ';
 }
+else{
+$linkedin='';
+}
 $googleplus=get_the_author_meta('googleplus',$author->ID);
 if($googleplus!=''){
 $go= plugins_url('/images/si_google.gif', __FILE__);
 $googleplus='<a href="'.$googleplus.'"><img src="'.$go.'"></a>  ';
+}
+else{
+$googleplus='';
 }
 $exclude=get_the_author_meta('exclude', $author->ID);
 $bio=get_the_author_meta('includebio', $author->ID);
@@ -1184,7 +1205,9 @@ $officetext='';
 $first = get_the_author_meta('first_name', $author->ID);
 $last = get_the_author_meta('last_name', $author->ID);
 $title = get_the_author_meta('title', $author->ID);
-
+if($title=='yes'){
+$title='';
+}
 $company = get_the_author_meta('company', $author->ID);
 if($company!=''){
 $company=$company.'<br>';

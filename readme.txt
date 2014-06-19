@@ -47,9 +47,14 @@ Thank you for downloading our Simple Intranet Directory plugin.  Here is a quick
 
 3. Set up your employee directory by uploading employee photos via the "Users/Your Profile" menus.
 
-4. Add a searchable employee directory listing by inserting the [employees] shortcode into a post or page. Optionally limit to 10 people per page (25 is default) using the limit parameter: [employees limit="10"].
+4. Add a searchable employee directory listing by inserting the [employees] shortcode into a post or page. 
 
-5. View these and more options at the "Simple Intranet" menu item in your Dashboard or visit http://www.simpleintranet.org.
+5. Optionally include the following parameters within the [employees] shortcode;
+- include a search box with email, title or department pulldown menu options and filter out specific roles/groups e.g. [employees search="yes" email="yes" title="yes" department="yes" search_exclude="administrator"]
+- set pixel width of avatar/employee photos e.g. [employees avatar="100"]
+- include only specific groups/roles, sort by last_name (or first_name) in ascending or descending (ASC/DESC) order and limit to 10 people per page (25 is default) e.g. [employees group="subscriber" sort="last_name" order="ASC" limit="10"].
+
+6. View these and more options at the "Simple Intranet" menu item in your Dashboard or visit http://www.simpleintranet.org.
 
 == Frequently Asked Questions ==
 
@@ -86,6 +91,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+
+= 2.7 =
+* Moved flush_rewrite_rules function to only trigger once on activation. This may help solve some permalink issues in the directory with some installs. Also cleaned up isolated issues where blank employee fields were filled with previous employee data.
 
 = 2.6 =
 * Added address and postal/zip code user profile information to the front page of directory (left blank it will not appear).

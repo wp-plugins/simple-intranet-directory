@@ -12,7 +12,17 @@ License: GPL2
 Credit goes Jake Goldman, Avatars Plugin, (http://www.10up.com/) for contributing to this code that allows for user photo uploads.
 */
 
-function si_create_bio_post_type() {
+add_action( 'init', 'si_create_post_type' );
+function si_create_post_type() {
+add_option('si_forms','checked');	
+add_option('si_events','checked');	
+add_option('si_members','checked');	
+add_option('si_photos','checked');	
+add_option('si_feed','checked');	
+add_option('si_upload','checked');	
+add_option('si_popular','checked');	
+add_option('si_orgchart','checked');	
+add_option('si_import','checked');	
 
 load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FILE__ ) ). '/languages' ); 	
 	
@@ -22,7 +32,8 @@ load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FIL
 	'edit_post' => 'si_edit_profile',
 	'edit_posts' => 'si_edit_profiles',
 	'delete_post' => 'si_delete_profile',
-	'delete_posts' => 'si_delete_profiles'
+	'delete_posts' => 'si_delete_profiles',
+	'si_edit_outofoffice' => 'si_edit_outofoffice',
 );
 	register_post_type( 'si_profile',
 		array(
@@ -30,7 +41,7 @@ load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FIL
 			'name' => __( 'Biographies' ),
 			'singular_name' => __( 'Biography' )
 			),
-		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' ),
+		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' ),		
 		'public' => true,
 		'show_ui'=> true,
 		'capability_type'=> 'post',
@@ -38,10 +49,10 @@ load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FIL
 		'capabilities' => $capabilities,
 		'menu_position' => 5,
 		'has_archive' => true,
-		 'rewrite' => array('slug' => 'bios','with_front' => FALSE),
+	    'rewrite' => array('slug' => 'bios','with_front' => true),
 		)
 	);
-	flush_rewrite_rules();
+
 	$role = get_role( 'administrator' );
 	$role2 = get_role( 'editor' );
 				if ( is_object($role)) {
@@ -51,6 +62,7 @@ load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FIL
 				$role->add_cap( 'si_edit_profiles' );
 				$role->add_cap( 'si_delete_profile' );
 				$role->add_cap( 'si_delete_profiles' );
+				$role->add_cap( 'si_edit_outofoffice' );
 			}
 			if ( is_object($role2)) {
 				$role2->add_cap( 'si_read_profile' );
@@ -59,14 +71,11 @@ load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FIL
 				$role2->add_cap( 'si_edit_profiles' );
 				$role2->add_cap( 'si_delete_profile' );
 				$role2->add_cap( 'si_delete_profiles' );
+				$role2->add_cap( 'si_edit_outofoffice' );
 }
 }
 
-function sid_rewrite_flush() {
-   si_create_bio_post_type();
-   flush_rewrite_rules();
-}
-register_activation_hook( __FILE__, 'sid_rewrite_flush' );
+load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FILE__ ) ). '/languages' ); 	
 
 if (get_option( 'legacy_photos')=="No" || get_option( 'legacy_photos')==""){
 include dirname(__FILE__) . '/avatars.php';

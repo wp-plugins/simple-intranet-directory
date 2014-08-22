@@ -3,8 +3,8 @@ Contributors: charlwood
 Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.5
-Tested up to: 3.9
-Stable tag: 2.6
+Tested up to: 3.9.2
+Stable tag: 2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,8 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 2.8 =
+* Fixed the automatic Out of Office check function when a date is set.
 
 = 2.7 =
 * Moved flush_rewrite_rules function to only trigger once on activation. This may help solve some permalink issues in the directory with some installs. Also cleaned up isolated issues where blank employee fields were filled with previous employee data.

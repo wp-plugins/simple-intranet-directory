@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.7
+Version: 2.8
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -1674,20 +1674,20 @@ add_action( 'widgets_init', create_function('', 'return register_widget("Employe
 
 // Schedule to check out of office alerts are updated regularly
 
-register_activation_hook(__FILE__, 'outofoffice_activation');
+register_activation_hook(__FILE__, 'outofoffice_chron_activation');
+add_action('sid', 'outofoffice_activation');
 add_action('outofoffice_daily_check', 'outofoffice_check');
 
 function outofoffice_activation() {
-wp_schedule_event(time(), 'hourly', 'outofoffice_daily_check');
+	if ( !wp_next_scheduled( 'outofoffice_daily_check' ) ) {
+wp_schedule_event(current_time( 'timestamp' ), 'hourly', 'outofoffice_daily_check');
+	}
 }
 
 function outofoffice_check() {
 
 global $in_out, $officeexpire, $current_user;	
-	//$gofs = get_option( 'gmt_offset' ); // get WordPress offset in hours
-	//$tz = date_default_timezone_get(); // get current PHP timezone
-	//date_default_timezone_set('Etc/GMT'.(($gofs < 0)?'+':'').-$gofs); // set the PHP timezone to match WordPress
-	$right_now=time();
+		$right_now=current_time( 'timestamp' );
 	  foreach ($authors9 as $key =>$author9 ) {
 	 
 	 $in_out=  get_the_author_meta( 'si_office_status', $author9, true) ; 
@@ -1705,7 +1705,6 @@ global $in_out, $officeexpire, $current_user;
 	  }
 	  }
 	  }
-	//  date_default_timezone_set($tz); // set the PHP timezone back the way it was
 }
 
 // Employee Search Widget

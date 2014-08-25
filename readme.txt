@@ -4,7 +4,7 @@ Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.5
 Tested up to: 3.9.2
-Stable tag: 2.8
+Stable tag: 2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,7 @@ Thank you for downloading our Simple Intranet Directory plugin.  Here is a quick
 - include a search box with email, title or department pulldown menu options and filter out specific roles/groups e.g. [employees search="yes" email="yes" title="yes" department="yes" search_exclude="administrator"]
 - set pixel width of avatar/employee photos e.g. [employees avatar="100"]
 - include only specific groups/roles, sort by last_name (or first_name) in ascending or descending (ASC/DESC) order and limit to 10 people per page (25 is default) e.g. [employees group="subscriber" sort="last_name" order="ASC" limit="10"].
+- include only specific users in a commas separated list [employees username="dsmith,rcharles"] 
 
 6. View these and more options at the "Simple Intranet" menu item in your Dashboard or visit http://www.simpleintranet.org.
 
@@ -91,6 +92,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 2.9 =
+* Added a parameter to the employees shortcode to include only specific users in a commas separated list [employees username="dsmith,rcharles"]. Also renamed a function to prevent conflicts.
+
 = 2.8 =
 * Fixed the automatic Out of Office check function when a date is set.
 

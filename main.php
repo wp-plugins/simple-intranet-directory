@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.8
+Version: 2.9
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -949,6 +949,7 @@ $role_count=count_roles();
 extract(shortcode_atts(array(
 		'limit' => 25,
 		'search_exclude'=>'',
+		'username'=>'', 
 		'avatar'=>100,
 		'search'=>'yes',
 		'group'=>'',
@@ -963,6 +964,12 @@ $group_exclude_array = explode( ',', $params['search_exclude'] );
 }
 else {
 $group_exclude_array ="";
+}
+if(isset($params['username'])){
+$username_array = explode( ',', $params['username'] );
+}
+else {
+$username_array ="";
 }
 // employee search form  // 
 add_option('employeespagesearch', get_permalink($id));
@@ -1010,7 +1017,21 @@ $offset = ($page - 1) * $number;
 
 // prepare arguments
 
-if ($type==""){
+if ($type=="" && $username!=""){	
+$newusers=array();
+foreach ($username_array as $username){	
+$user = get_user_by( 'login', $username );
+array_push($newusers, $user->ID);
+}
+$args  = array(
+'number' => $number,
+'offset' => $offset,
+'include' => $newusers,
+);
+$authors = get_users($args);
+}
+
+elseif ($type==""){
 $args  = array(
 'number' => $number,
 'offset' => $offset,
@@ -1432,14 +1453,14 @@ function simple_comments_form_defaults($default) {
 	return $default;
 }
 
-function redirect_to_front_page() {
+function sid_redirect_to_front_page() {
 	global $redirect_to;
 	if (!isset($_GET['redirect_to'])) {
 		$redirect_to = get_option('siteurl');
 	}
 }
 
-add_action('login_form', 'redirect_to_front_page');
+add_action('login_form', 'sid_redirect_to_front_page');
 
 
 // out of the office ALERT

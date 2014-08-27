@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 2.9
+Version: 3.0
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -1694,21 +1694,20 @@ echo 'None.<br><br>';
 add_action( 'widgets_init', create_function('', 'return register_widget("EmployeesWidget");') );
 
 // Schedule to check out of office alerts are updated regularly
+add_action('sid_outofoffice_check', 'sid_outofoffice_hourly_check');
 
-register_activation_hook(__FILE__, 'outofoffice_chron_activation');
-add_action('sid', 'outofoffice_activation');
-add_action('outofoffice_daily_check', 'outofoffice_check');
-
-function outofoffice_activation() {
-	if ( !wp_next_scheduled( 'outofoffice_daily_check' ) ) {
-wp_schedule_event(current_time( 'timestamp' ), 'hourly', 'outofoffice_daily_check');
+function sid_outofoffice_chron_activation() {
+	if ( !wp_next_scheduled( 'sid_outofoffice_check' ) ) {
+wp_schedule_event(current_time( 'timestamp' ), 'hourly', 'sid_outofoffice_check');
 	}
 }
 
-function outofoffice_check() {
+add_action( 'wp', 'sid_outofoffice_chron_activation' );
 
+function sid_outofoffice_hourly_check() {
 global $in_out, $officeexpire, $current_user;	
-		$right_now=current_time( 'timestamp' );
+	$right_now=current_time( 'timestamp' );
+	if (is_array($authors9)){
 	  foreach ($authors9 as $key =>$author9 ) {
 	 
 	 $in_out=  get_the_author_meta( 'si_office_status', $author9, true) ; 
@@ -1726,6 +1725,7 @@ global $in_out, $officeexpire, $current_user;
 	  }
 	  }
 	  }
+}
 }
 
 // Employee Search Widget

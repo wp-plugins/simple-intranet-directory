@@ -92,6 +92,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 3.0 =
+* Fixed out of office expiry checking function.
+
 = 2.9 =
 * Added a parameter to the employees shortcode to include only specific users in a commas separated list [employees username="dsmith,rcharles"]. Also renamed a function to prevent conflicts.
 

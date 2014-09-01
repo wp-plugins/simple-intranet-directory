@@ -92,6 +92,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 3.1 =
+* Adjusted out of office expiry checking function to account for timezone setting.
+
 = 3.0 =
 * Fixed out of office expiry checking function.
 

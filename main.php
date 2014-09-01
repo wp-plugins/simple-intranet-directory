@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 3.0
+Version: 3.1
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -1705,15 +1705,20 @@ wp_schedule_event(current_time( 'timestamp' ), 'hourly', 'sid_outofoffice_check'
 add_action( 'wp', 'sid_outofoffice_chron_activation' );
 
 function sid_outofoffice_hourly_check() {
-global $in_out, $officeexpire, $current_user;	
+global $in_out, $officeexpire, $current_user;
+$wp_user_query9 = new WP_User_Query($args);
+$authors9 = $wp_user_query9->get_results();
+
 	$right_now=current_time( 'timestamp' );
+	$gmt = get_option( 'gmt_offset' ) * 3600;
+	
 	if (is_array($authors9)){
 	  foreach ($authors9 as $key =>$author9 ) {
 	 
 	 $in_out=  get_the_author_meta( 'si_office_status', $author9, true) ; 
 	 $officeexpire= get_the_author_meta( 'officeexpire_unix', $author9 ) ;
+	 $officeexpire = $officeexpire + $gmt;
 	 $set_expiry= esc_attr( get_the_author_meta( 'expiry', $author9 ) ); 	
-	
 	 if($set_expiry=="Yes"){
 	 if($officeexpire<=$right_now ){
 	 $in_out='false';

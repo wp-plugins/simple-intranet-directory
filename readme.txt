@@ -92,6 +92,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 3.2 =
+* Improved full name text sanitization for user profile links. Made the Out of Office and Employee widget avatars and user fullnames clickable back to their profile details when available. Updated instructions on included a selected set up users in the directory using the [employees username="admin,rbrown"] shortcode parameter.
+
 = 3.1 =
 * Adjusted out of office expiry checking function to account for timezone setting.
 

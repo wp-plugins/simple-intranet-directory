@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 3.1
+Version: 3.2
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -911,7 +911,7 @@ _e( 'Want online forms, a calendar, activity feed and file management for your i
 	_e('USER PHOTOS NOT WORKING? Try checking the option for Use Legacy User Photos? at the bottom of <a href="profile.php">Your Profile</a>.<br><br>');
 	
 	_e('<h4><em>Shortcodes</em></h4>');
-		_e('- To add a searchable employee directory to a page or post, insert the <strong>[employees]</strong> shortcode. Limit to 25 employees per page using the limit parameter, display the search bar above the listing with title and department search options, exclude "board" and "executive" custom groups (use slugs) from search pull-down, set avatar pixel width to 100 and display only Subscriber roles as follows: <strong>[employees limit="25" search="yes" title="yes" department="yes" search_exclude="board,executive" avatar="100" group="subscriber"]</strong>.<br>');
+		_e('- To add a searchable employee directory to a page or post, insert the <strong>[employees]</strong> shortcode. Limit to 25 employees per page using the limit parameter, display the search bar above the listing with title and department search options, exclude "board" and "executive" custom groups (use slugs) from search pull-down, set avatar pixel width to 100 and display only Subscriber roles as follows: <strong>[employees limit="25" search="yes" title="yes" department="yes" search_exclude="board,executive" avatar="100" group="subscriber"]</strong>. To include only specific users in a commas separated list use the username parameter such as: <strong>[employees username="dsmith,rcharles"]</strong>.<br>');
 		
 	_e('<h4><em>Widgets</em></h4>');
 	_e('- Provide an employee directory search function using the <strong>Search Employees</strong> widget.<br>');
@@ -1234,6 +1234,8 @@ $officetext='';
 }
 $first = get_the_author_meta('first_name', $author->ID);
 $last = get_the_author_meta('last_name', $author->ID);
+str_replace(' ', '-', $first);
+str_replace(' ', '-', $last);
 $title = get_the_author_meta('title', $author->ID);
 if($title=='yes'){
 $title='';
@@ -1334,7 +1336,7 @@ $biography='';
 
 // Create page for employee 
 $fullname=$first.' '.$last;
-$fullname=esc_html($fullname);
+$fullname=sanitize_text_field($fullname);
 global $current_user;
 $user_roles = $current_user->roles;
 $user_role = array_shift($user_roles);
@@ -1529,8 +1531,8 @@ class OutOfOfficeWidget extends WP_Widget
 {
   function OutOfOfficeWidget()
   {
-    $widget_ops = array('classname' => 'OutOfOfficeWidget', 'description' => __('Displays a list of employees who are away.') );
-    $this->WP_Widget('OutOfOfficeWidget', 'Employee Out of Office', $widget_ops);
+    $widget_ops_out = array('classname' => 'OutOfOfficeWidget', 'description' => __('Displays a list of employees who are away.') );
+    $this->WP_Widget('OutOfOfficeWidget', 'Employee Out of Office', $widget_ops_out);
   }
  
   function form($instance)
@@ -1590,15 +1592,25 @@ $c=$c+1;
 }
 $first = get_the_author_meta('first_name', $author2->ID);
 $last = get_the_author_meta('last_name', $author2->ID);
+
+if (get_option( 'profiledetail' )=="Yes"){
+$fn2=$first.'-'.$last;
+$fullname_link=sanitize_text_field($fn2);
+$fullname_link2=strtolower($fullname_link);
+$fnl3= str_replace(' ', '-', $fullname_link2);
+}
+else {
+$fn13='';
+}
 $title = get_the_author_meta('title', $author2->ID);
 $email = get_the_author_meta('email', $author2->ID);
 if ($inoffice=='true' || $in_out=='true'){
 echo '<div class="si-employees-wrap"><div class="employeephotowidget">';
 if(get_avatar($author2->ID,40))
-echo get_avatar($author2->ID,40);
+echo '<a href="'.home_url().'/bios/'.$fnl3.'">'.get_avatar($author2->ID,40).'</a>';
 echo '</div>';
 echo '<div class="employeebiowidget">';
-echo '<strong>'.$first.' '.$last.'</strong>';
+echo '<strong><a href="'.home_url().'/bios/'.$fnl3.'">'.$first.' '.$last.'</a></strong>';
 if($outtext!=''){
 echo '<br>'.$outtext.' ';
 }
@@ -1673,14 +1685,25 @@ $c=$c+1;
 
 $first6 = get_the_author_meta('first_name', $author6->ID);
 $last6 = get_the_author_meta('last_name', $author6->ID);	
+if (get_option( 'profiledetail' )=="Yes"){
+$fn6=$first6.'-'.$last6;
+$fullname_link6=sanitize_text_field($fn6);
+$fullname_link6=strtolower($fullname_link6);
+$fnl6= str_replace(' ', '-', $fullname_link6);
+}
+else {
+$fn16='';
+}
+
 if (get_the_author_meta( 'exclude', $author6->ID )!="Yes"){
 echo '<div class="si-employees-wrap"><div class="employeephotowidget">';
 if(get_avatar($author6->ID,40))
-echo get_avatar($author6->ID,40);
+echo '<a href="'.home_url().'/bios/'.$fnl6.'">'.get_avatar($author6->ID,40).'</a>';
 echo '</div>';
 echo '<div class="employeebiowidget">';
-echo '<strong>'.$first6.' '.$last6.'</strong>';
+echo '<strong><a href="'.home_url().'/bios/'.$fnl6.'">'.$first6.' '.$last6.'</a></strong>';
 echo '</div></div>';
+$fn16='';
 }
 }
  if ($c==0)
@@ -1739,8 +1762,8 @@ class EmployeeSearchWidget extends WP_Widget
 {
   function EmployeeSearchWidget()
   {
-    $widget_ops = array('classname' => 'EmployeeSearchWidget', 'description' => __('An employee search option.') );
-    $this->WP_Widget('EmployeeSearchWidget', 'Employee Search', $widget_ops);
+    $widget_ops_search = array('classname' => 'EmployeeSearchWidget', 'description' => __('An employee search option.') );
+    $this->WP_Widget('EmployeeSearchWidget', 'Employee Search', $widget_ops_search);
   }
  
   function form($instance)

@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 3.2
+Version: 3.3
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -14,15 +14,6 @@ Credit goes Jake Goldman, Avatars Plugin, (http://www.10up.com/) for contributin
 
 add_action( 'init', 'si_create_post_type' );
 function si_create_post_type() {
-add_option('si_forms','checked');	
-add_option('si_events','checked');	
-add_option('si_members','checked');	
-add_option('si_photos','checked');	
-add_option('si_feed','checked');	
-add_option('si_upload','checked');	
-add_option('si_popular','checked');	
-add_option('si_orgchart','checked');	
-add_option('si_import','checked');	
 
 load_plugin_textdomain( 'simpleintranet', false, dirname( plugin_basename( __FILE__ ) ). '/languages' ); 	
 	
@@ -171,12 +162,14 @@ global $in_out;
     $roles = $wp_roles->get_names();
 	$savedroles = get_option('sroles');	
     // Generate HTML code
-    foreach ($roles as $key=>$value) {  
+    if(is_array($roles)){
+	foreach ($roles as $key=>$value) {  
 	?>
-    <input type="checkbox" name="savedroles[<?php echo $key;?>]" value="Yes" <?php if($savedroles[$key]=="Yes"){ 
+    <input type="checkbox" name="savedroles[<?php echo $key;?>]" value="Yes" <?php if(isset($savedroles[$key]) && $savedroles[$key]=="Yes"){ 
 	echo 'checked=/"checked/"';	
 	} ?> /> <?php echo $value; ?><br />
 <?php  
+	}
 }
 ?>  
 </blockquote>
@@ -972,9 +965,10 @@ else {
 $username_array ="";
 }
 // employee search form  // 
-add_option('employeespagesearch', get_permalink($id));
+add_option('employeespagesearch', get_permalink());
 if($search=='yes'){
-echo '<form method="POST" id="employeesearchform" action="'.get_permalink($id).'" >
+	
+echo '<form method="POST" id="employeesearchform" action="'.get_permalink().'" >
 	<div><input type="text" name="si_search" id="si_search" />
 	<select name="type" id="type">';
 $t=ucfirst(	$_POST['type']);
@@ -1412,7 +1406,7 @@ echo '</div></div><br>';
 //pagination stuff
 $pr='Previous Page';
 $ne='Next Page';
-$plink = get_permalink( $id );
+$plink = get_permalink();
 if ($page != 1) { 
 echo '<a rel="prev" href="'.$plink.'/'.($page - 1).'">'.$pr.'</a>'.'  ';
  } 

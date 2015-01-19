@@ -3,8 +3,8 @@ Contributors: charlwood
 Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.5
-Tested up to: 4.0
-Stable tag: 4.0
+Tested up to: 4.1
+Stable tag: 3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 3.3 =
+* Fixed some warnings and optimized for WordPress 4.1.
+
 = 3.2 =
 * Improved full name text sanitization for user profile links. Made the Out of Office and Employee widget avatars and user fullnames clickable back to their profile details when available. Updated instructions on included a selected set up users in the directory using the [employees username="admin,rbrown"] shortcode parameter.
 

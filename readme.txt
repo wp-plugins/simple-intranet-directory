@@ -3,12 +3,12 @@ Contributors: charlwood
 Donate link: http://www.simpleintranet.org/
 Tags: intranet, extranet, employee, user photo, company, directory, profile, staff, out of office
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 3.3
+Tested up to: 4.2.1
+Stable tag: 3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A simple employee directory with photos for your intranet or business.
+A simple employee directory with photos for your intranet.
 
 == Description ==
 
@@ -22,7 +22,6 @@ Upgrade to the full version of our Simple Intranet (http://www.simpleintranet.or
 * online forms that you can customize for HR or contact inquiries
 * Dropbox-like drag and drop front-end file management 
 * bulk user import function from CSV file
-* Google/Active Directory single sign-on (SSO)
 * out of office expiry date and custom text options and widget
 * employee of the month, company anniversary and employee birthday widgets
 * drill-down detailed employee biography profiles (prepopulated or custom HTML)
@@ -92,6 +91,9 @@ Note, each person will have a post generated with their name as the title, and s
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
 
 == Changelog ==
+= 3.4 =
+* Added the ability for admins to switch user photos from square to round in Your Profile area.
+
 = 3.3 =
 * Fixed some warnings and optimized for WordPress 4.1.
 

@@ -4,7 +4,7 @@ Plugin Name: Simple Intranet Employee Directory
 Description: Provides a simple employee directory for your intranet.
 Plugin URI: http://www.simpleintranet.org
 Description: Provides a simple intranet which includes extended user employee profile data, employee photos, custom fields and out of office alerts.
-Version: 3.3
+Version: 3.4
 Author: Simple Intranet
 Author URI: http://www.simpleintranet.org
 License: GPL2
@@ -80,6 +80,10 @@ add_action( 'wp_enqueue_scripts', 'employee_style' );
 function employee_style() {
         wp_register_style( 'employee-directory', plugins_url('/css/si_employees.css', __FILE__) );
         wp_enqueue_style( 'employee-directory' );
+	if(get_option('si_round_avatars')=='Yes'){
+		wp_register_style( 'employee-directory-avatars', plugins_url('/css/si_round_avatars.css', __FILE__) );
+		wp_enqueue_style( 'employee-directory-avatars' );
+		}
     }
 
 if(is_admin()){
@@ -784,6 +788,15 @@ function enqueue_date_picker2(){
 		</tr>
        <?php if(current_user_can('administrator') ) { ?> 
          <tr>
+			 <th>
+				<label for="includebio"><?php _e('Round User Photos?', 'simpleintranet'); ?>
+			</label></th>
+			 <td align="left">  
+            <input type="checkbox" name="si_round_avatars" id="si_round_avatars" value="Yes"  <?php if (get_option( 'si_round_avatars')=="Yes"){
+		echo "checked=\"checked\"";
+	} ?>> <label for="si_round_avatars" ><?php _e('Make all user photos/avatars round vs square (Note: your theme may not support this).', 'simpleintranet'); ?></label><br />
+			 </td></tr>
+	  <tr>
 			<th>
 				<label for="includebio"><?php _e('Use Legacy User Photos?', 'simpleintranet'); ?>
 			</label></th>
@@ -858,6 +871,7 @@ function fb_save_custom_user_profile_fields( $user_id ) {
 	update_option('phoneaustralia', $_POST['phoneaustralia'] );
 	update_option('phonesouthafrica', $_POST['phonesouthafrica'] );
 	update_option('phoneeurope', $_POST['phoneeurope'] );
+	update_option('si_round_avatars', $_POST['si_round_avatars'] );
 	update_option('sroles', $_POST['savedroles']);
 	}
 	update_user_meta( $user_id, 'custom1', $_POST['custom1'] );	

@@ -89,6 +89,7 @@ Note, each person will have a post generated with their name as the title, and s
 == Screenshots ==
 
 1. This screen shot shows the Simple Intranet Directory with employee extended profile information and user photos/avatars.
+2. This screen shot shows the round user photo/avatar option.
 
 == Changelog ==
 = 3.4 =
